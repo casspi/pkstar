@@ -1,0 +1,43 @@
+{
+  "name": "@pkstar/utils",
+  "version": "0.0.1",
+  "description": "工具库",
+  "main": "src/index.ts",
+  "scripts": {
+    "clean:es": "rimraf ./es",
+    "clean:lib": "rimraf ./lib",
+    "clean": "npm run clean:es && npm run clean:lib",
+    "build:es": "npm run clean:es && tsc -p ./tsconfig-esm.json",
+    "build:lib": "npm run clean:lib && tsc -p ./tsconfig.json",
+    "build": "npm run build:es && npm run build:lib",
+    "format": "prettier --write src/",
+    "release": "npm run build && dsc publish --pnpm -t && dsc sync"
+  },
+  "keywords": [
+    "utils",
+    "tools"
+  ],
+  "author": "kassadin <369642339@qq.com>",
+  "license": "MIT",
+  "publishConfig": {
+    "main": "lib/index.js",
+    "module": "es/index.js",
+    "types": "es/index.d.ts",
+    "exports": {
+      ".": {
+        "types": "./es/index.d.ts",
+        "import": "./es/index.js",
+        "require": "./lib/index.js"
+      },
+      "./*": "./*"
+    },
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "devDependencies": {
+    "node-dir": "^0.1.17",
+    "plop": "^4.0.1",
+    "rimraf": "^6.0.1",
+    "typescript": "^5.5.4"
+  }
+}

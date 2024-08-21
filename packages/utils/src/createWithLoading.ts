@@ -1,4 +1,4 @@
-import { Loose } from '@daysnap/types'
+import type { Loose } from '@daysnap/types'
 
 type WithFalse<T> = T | false
 

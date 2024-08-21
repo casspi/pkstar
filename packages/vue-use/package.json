@@ -5,6 +5,8 @@
   "main": "src/index.ts",
   "types": "src/index.ts",
   "scripts": {
+    "gen": "plop --plopfile ./scripts/gen.js --force",
+    "del": "plop --plopfile ./scripts/del.js --force",
     "entry": "plop --plopfile ./scripts/entry.js --force",
     "clean:es": "rimraf ./es",
     "clean:lib": "rimraf ./lib",

@@ -1,0 +1,34 @@
+{
+  "name": "pkstar",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "preinstall": "npx only-allow pnpm",
+    "dev": "pnpm -C ./playground dev",
+    "clean": "rimraf --glob **/node_modules",
+    "format": "npm run format:vue-use",
+    "format:vue-use": "pnpm -C ./packages/vue-use format",
+    "build": "npm run build:vue-use",
+    "build:vue-use": "pnpm -C ./packages/vue-use build",
+    "release": "npm run release:vue-use",
+    "release:vue-use": "pnpm -C ./packages/vue-use release"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@vue/eslint-config-prettier": "^8.0.0",
+    "@vue/eslint-config-typescript": "^12.0.0",
+    "@rushstack/eslint-patch": "^1.3.3",
+    "@typescript-eslint/eslint-plugin": "^6.5.0",
+    "@typescript-eslint/parser": "^6.5.0",
+    "eslint": "^8.49.0",
+    "eslint-plugin-vue": "^9.17.0",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-plugin-prettier": "^5.0.0",
+    "prettier": "^3.0.3",
+    "rimraf": "^5.0.1",
+    "typescript": "^5.2.2"
+  }
+}

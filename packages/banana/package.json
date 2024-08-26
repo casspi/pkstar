@@ -1,6 +1,6 @@
 {
   "name": "@pkstar/banana",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "表单校验、赋值、取值工具",
   "scripts": {
     "clean:es": "rimraf ./es",

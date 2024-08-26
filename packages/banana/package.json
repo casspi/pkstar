@@ -1,0 +1,61 @@
+{
+  "name": "@pkstar/banana",
+  "version": "0.0.1",
+  "description": "表单校验、赋值、取值工具",
+  "scripts": {
+    "clean:es": "rimraf ./es",
+    "clean:lib": "rimraf ./lib",
+    "clean": "npm run clean:es && npm run clean:lib",
+    "build:es": "npm run clean:es && tsc -p ./tsconfig-esm.json",
+    "build:lib": "npm run clean:lib && tsc -p ./tsconfig.json",
+    "build:tsc": "npm run build:es && npm run build:lib",
+    "build": "npm run clean && tsup",
+    "release": "npm run build && dsc publish -t",
+    "ts-node": "npx ts-node --project ./tsconfig.json ./src/filename.ts",
+    "format": "prettier --write src/"
+  },
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./es/index.d.ts",
+        "default": "./es/index.js"
+      },
+      "require": {
+        "types": "./lib/index.d.cts",
+        "default": "./lib/index.cjs"
+      }
+    },
+    "./*": "./*"
+  },
+  "main": "lib/index.cjs",
+  "module": "es/index.js",
+  "types": "es/index.d.ts",
+  "typesVersions": {
+    "*": {
+      "*": [
+        "./lib/*",
+        "./es/*",
+        "./*"
+      ]
+    }
+  },
+  "keywords": [
+    "from",
+    "validate",
+    "extract",
+    "assignment"
+  ],
+  "author": "kassadin🥷 <369642339@qq.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "rimraf": "^6.0.1"
+  },
+  "dependencies": {
+    "tsup": "^8.2.4"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  }
+}

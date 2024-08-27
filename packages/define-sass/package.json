@@ -1,0 +1,25 @@
+{
+  "name": "@pkstar/define-sass",
+  "version": "0.0.1",
+  "description": "预设样式",
+  "main": "src/index.scss",
+  "scripts": {
+    "release": "dsc publish -t",
+    "dev": "sass --watch examples/sass/index.scss:examples/css/index.css"
+  },
+  "keywords": [
+    "scss",
+    "define",
+    "sass",
+    "reset"
+  ],
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "author": "kassadin <369642339@qq.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "sass": "^1.77.8"
+  }
+}

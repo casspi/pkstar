@@ -1,6 +1,6 @@
 {
   "name": "@pkstar/define-sass",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "预设样式",
   "main": "src/index.scss",
   "scripts": {

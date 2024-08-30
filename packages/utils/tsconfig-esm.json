@@ -3,5 +3,5 @@
   "compilerOptions": {
     "outDir": "./es",
     "module": "ES6"
-  },
+  }
 }

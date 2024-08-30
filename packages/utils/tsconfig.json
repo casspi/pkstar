@@ -10,16 +10,16 @@
     "moduleResolution": "node",
     "esModuleInterop": true,
     "outDir": "./lib",
-    
-     // <https://devblogs.microsoft.com/typescript/announcing-typescript-5-0/#verbatimmodulesyntax>
+
+    // <https://devblogs.microsoft.com/typescript/announcing-typescript-5-0/#verbatimmodulesyntax>
     // Any imports or exports without a type modifier are left around. This is important for `<script setup>`.
     // Anything that uses the type modifier is dropped entirely.
-    "verbatimModuleSyntax": true,
 
-    "forceConsistentCasingInFileNames": true,
+    // TODO 影响ts-jest 使用（jest不支持ts、esm, 需要通过ts-jest转commonjs方式，这里）
+    // "verbatimModuleSyntax": true,
+
+    "forceConsistentCasingInFileNames": true
   },
-  "include": [
-    "src/**/*.ts",
-  ],
+  "include": ["src/**/*.ts"],
   "exclude": ["node_modules"]
 }

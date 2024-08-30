@@ -17,7 +17,8 @@
     "vue": "^3.4.29",
     "vue-router": "^4.3.3",
     "@pkstar/vue-use": "workspace:^",
-    "@pkstar/utils": "workspace:^"
+    "@pkstar/utils": "workspace:^",
+    "@pkstar/banana": "workspace:^"
   },
   "devDependencies": {
     "@rushstack/eslint-patch": "^1.8.0",

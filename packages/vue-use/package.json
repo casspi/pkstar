@@ -15,7 +15,7 @@
     "build:lib": "npm run clean:lib && tsc -p ./tsconfig.json",
     "build": "npm run build:es && npm run build:lib",
     "format": "prettier --write src/",
-    "release": "npm run build && dsc publish --pnpm -t && dsc sync"
+    "release": "npm run build && dsc publish --pnpm && dsc sync"
   },
   "publishConfig": {
     "main": "lib/index.js",

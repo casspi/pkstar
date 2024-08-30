@@ -1,10 +1,10 @@
 {
   "name": "@pkstar/define-sass",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "预设样式",
   "main": "src/index.scss",
   "scripts": {
-    "release": "dsc publish -t",
+    "release": "dsc publish --pnpm && dsc sync",
     "dev": "sass --watch examples/sass/index.scss:examples/css/index.css"
   },
   "keywords": [

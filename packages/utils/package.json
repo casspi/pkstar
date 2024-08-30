@@ -2,43 +2,74 @@
   "name": "@pkstar/utils",
   "version": "0.0.1",
   "description": "工具库",
-  "main": "src/index.ts",
+  "keywords": [
+    "utils",
+    "tools"
+  ],
+  "author": "kassadin🥷 <369642339@qq.com>",
+  "license": "MIT",
+  "files": [
+    "lib",
+    "es",
+    "docs"
+  ],
   "scripts": {
+    "gen": "plop --plopfile ./scripts/gen.cjs --force",
+    "del": "plop --plopfile ./scripts/del.cjs --force",
+    "entry": "plop --plopfile ./scripts/entry.cjs --force",
     "clean:es": "rimraf ./es",
     "clean:lib": "rimraf ./lib",
     "clean": "npm run clean:es && npm run clean:lib",
     "build:es": "npm run clean:es && tsc -p ./tsconfig-esm.json",
     "build:lib": "npm run clean:lib && tsc -p ./tsconfig.json",
-    "build": "npm run build:es && npm run build:lib",
+    "build:tsc": "npm run build:es && npm run build:lib",
+    "build": "npm run entry && npm run clean && tsup",
     "format": "prettier --write src/",
-    "release": "npm run build && dsc publish --pnpm -t && dsc sync"
+    "release": "npm run build && dsc publish --pnpm && dsc sync",
+    "test": "jest"
   },
-  "keywords": [
-    "utils",
-    "tools"
-  ],
-  "author": "kassadin <369642339@qq.com>",
-  "license": "MIT",
-  "publishConfig": {
-    "main": "lib/index.js",
-    "module": "es/index.js",
-    "types": "es/index.d.ts",
-    "exports": {
-      ".": {
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": {
         "types": "./es/index.d.ts",
-        "import": "./es/index.js",
-        "require": "./lib/index.js"
+        "default": "./es/index.js"
       },
-      "./*": "./*"
+      "require": {
+        "types": "./lib/index.d.cts",
+        "default": "./lib/index.cjs"
+      }
     },
+    "./*": "./*"
+  },
+  "main": "lib/index.cjs",
+  "module": "es/index.js",
+  "types": "es/index.d.ts",
+  "typesVersions": {
+    "*": {
+      "*": [
+        "./lib/*",
+        "./es/*",
+        "./*"
+      ]
+    }
+  },
+  "publishConfig": {
     "access": "public",
     "registry": "https://registry.npmjs.org/"
   },
   "devDependencies": {
     "@daysnap/types": "^0.0.5",
+    "@types/jest": "^29.5.12",
+    "jest": "^29.7.0",
     "node-dir": "^0.1.17",
     "plop": "^4.0.1",
     "rimraf": "^6.0.1",
+    "ts-jest": "^29.2.4",
+    "tsup": "^8.2.4",
     "typescript": "^5.5.4"
+  },
+  "dependencies": {
+    "ts-node": "^10.9.2"
   }
 }

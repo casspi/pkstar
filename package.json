@@ -18,6 +18,7 @@
     "build:vue-use": "pnpm -C ./packages/vue-use build",
     "build:utils": "pnpm -C ./packages/utils build",
     "build:banana": "pnpm -C ./packages/banana build:tsc",
+    "dev:define-sass": "pnpm -C ./packages/define-sass dev",
     "release": "npm run release:vue-use",
     "release:vue-use": "pnpm -C ./packages/vue-use release",
     "release:utils": "pnpm -C ./packages/utils release"

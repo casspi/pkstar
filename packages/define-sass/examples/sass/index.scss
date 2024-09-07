@@ -2,6 +2,7 @@
 @import '../../src/mixins';
 @import '../../src/placeholder';
 @import '../../src/reset.scss';
+@import '../../src/font-family.scss';
 $dropdown-divider-border-color: red;
 $color-text-placeholder: #fff;
 
@@ -207,9 +208,19 @@ $color-text-placeholder: #fff;
 //    transform: translate3d(0, 0, 0);
 //  }
 //}
-
+p {
+  a {
+    color: #f00;
+    text-decoration: underline;
+  }
+}
 .c-list {
   background-color: #fee;
+  line-height: 28px;
+  li {
+    @extend %bsb;
+    height: 28px;
+  }
   li:nth-child(1) {
     @include rounded(10px);
     border: 1px solid #f00;

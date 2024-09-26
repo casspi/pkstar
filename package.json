@@ -6,11 +6,13 @@
   "scripts": {
     "preinstall": "npx only-allow pnpm",
     "dev": "pnpm -C ./playground dev",
+    "dev:define-sass": "pnpm -C ./packages/define-sass dev",
     "clean": "rimraf --glob **/node_modules",
     "vue-use:gen": "pnpm -C ./packages/vue-use gen",
     "vue-use:del": "pnpm -C ./packages/vue-use del",
     "utils:gen": "pnpm -C ./packages/utils gen",
     "utils:del": "pnpm -C ./packages/utils del",
+    "utils:entry": "pnpm -C ./packages/utils entry",
     "format": "npm run format:vue-use",
     "format:vue-use": "pnpm -C ./packages/vue-use format",
     "test:utils": "pnpm -C ./packages/utils test",
@@ -18,7 +20,6 @@
     "build:vue-use": "pnpm -C ./packages/vue-use build",
     "build:utils": "pnpm -C ./packages/utils build",
     "build:banana": "pnpm -C ./packages/banana build:tsc",
-    "dev:define-sass": "pnpm -C ./packages/define-sass dev",
     "release": "npm run release:vue-use",
     "release:vue-use": "pnpm -C ./packages/vue-use release",
     "release:utils": "pnpm -C ./packages/utils release"

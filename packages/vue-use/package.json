@@ -41,9 +41,10 @@
   "author": "kassadin <369642339@qq.com>",
   "license": "MIT",
   "devDependencies": {
+    "@pkstar/utils": "^0.0.2",
+    "node-dir": "^0.1.17",
     "plop": "^4.0.1",
-    "rimraf": "^6.0.1",
-    "node-dir": "^0.1.17"
+    "rimraf": "^6.0.1"
   },
   "dependencies": {
     "vue": ">=3.4.29",

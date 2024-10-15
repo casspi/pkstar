@@ -261,4 +261,17 @@ p a {
   -webkit-box-orient: vertical;
 }
 
+.arrow {
+  width: 5px;
+  height: 5px;
+  border-top: 1px solid #f00;
+  border-right: 1px solid #f00;
+  -webkit-transform: rotate(45deg);
+  -moz-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  -o-transform: rotate(45deg);
+  transform: rotate(45deg);
+  margin-left: 5px;
+}
+
 /*# sourceMappingURL=index.css.map */

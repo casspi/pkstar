@@ -239,3 +239,7 @@ p {
     @include twno(1);
   }
 }
+
+.arrow{
+  @include arrow-right(5, #f00);
+}

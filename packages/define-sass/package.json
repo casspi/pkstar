@@ -1,8 +1,16 @@
 {
   "name": "@pkstar/define-sass",
-  "version": "0.0.3",
+  "version": "0.0.7",
   "description": "预设样式",
+  "files": [
+    "src"
+  ],
   "main": "src/index.scss",
+  "exports": {
+    ".": "./src/index.scss",
+    "./reset": "./src/reset.scss",
+    "./*": "./src/*"
+  },
   "scripts": {
     "release": "dsc publish --pnpm && dsc sync",
     "dev": "sass --watch examples/sass/index.scss:examples/css/index.css"

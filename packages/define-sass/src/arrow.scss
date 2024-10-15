@@ -1,0 +1,33 @@
+@mixin arrow($w:6, $c:'#cbcbcb') {
+  width: j($w);
+  height: j($w);
+  display: inline-block;
+  border-top: 1px solid $c;
+  border-right: 1px solid $c;
+
+}
+
+@mixin arrow-right($w, $c) {
+  @include arrow($w, $c);
+  @include tfr(45deg);
+  margin-left: j(5);
+}
+
+@mixin arrow-bottom($w, $c) {
+  @include arrow($w);
+  @include tfr(135deg);
+  margin-left: j(15);
+  margin-bottom: j(10);
+}
+
+@mixin arrow-left($w, $c) {
+  @include arrow($w);
+  @include tfr(-135deg);
+  margin-right: j(5);
+}
+
+@mixin arrow-top($w, $c) {
+  @include arrow($w);
+  @include tfr(-45deg);
+  margin-left: j(15);
+}

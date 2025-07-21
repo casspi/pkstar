@@ -1,0 +1,63 @@
+{
+  "name": "@pkstar/horn-jssdk",
+  "version": "0.0.18",
+  "description": "原生容器面向 H5 开发者提供的基于容器应用内的网页开发工具包",
+  "main": "src/index.ts",
+  "publishConfig": {
+    "main": "es/index.js",
+    "module": "es/index.js",
+    "types": "es/index.d.ts",
+    "exports": {
+      ".": {
+        "import": "./es/index.js",
+        "require": "./es/index.js"
+      },
+      "./*": "./*"
+    },
+    "registry": "https://registry.npmjs.org/"
+  },
+  "scripts": {
+    "test": "jest",
+    "tsc": "tsc --noEmit",
+    "coverage": "jest --coverage",
+    "clean:es": "rimraf ./es",
+    "build": "npm run clean:es && tsc -p ./tsconfig.json",
+    "release": "npm run build && dsc publish --pnpm",
+    "sync": "dsc sync"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/daysnap/jssdk.git"
+  },
+  "keywords": [
+    "horn",
+    "daysnap",
+    "jssdk",
+    "tool"
+  ],
+  "files": [
+    "lib",
+    "es"
+  ],
+  "author": "Ajuan",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/daysnap/jssdk/issues"
+  },
+  "homepage": "https://github.com/daysnap/jssdk#readme",
+  "devDependencies": {
+    "@daysnap/banana": "^0.0.10",
+    "@daysnap/horn-ui": "workspace:*",
+    "@daysnap/horn-use": "workspace:*",
+    "@daysnap/utils": "^0.0.64",
+    "@types/jest": "^27.4.1",
+    "jest": "^27.5.1",
+    "ts-jest": "^27.1.4",
+    "typescript": "^5.0.2",
+    "vant": "^4.3.1",
+    "vue": "^3.2.47"
+  },
+  "peerDependencies": {
+    "@daysnap/utils": ">=0.0.48"
+  }
+}

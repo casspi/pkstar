@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "isolatedModules": true,
+    "preserveValueImports": true,
+    "ignoreDeprecations": "5.0",
+    "target": "esnext",
+    "moduleResolution": "node",
+    "baseUrl": "./",
+    "outDir": "./es",
+    "jsx": "preserve",
+    "declaration": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "strict": true
+  },
+  "include": ["src/**/*.ts", "typings/**/*.d.ts"]
+}

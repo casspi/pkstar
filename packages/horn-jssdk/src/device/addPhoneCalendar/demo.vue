@@ -20,8 +20,8 @@
 <script setup lang="ts">
   import { reactive, shallowRef } from 'vue'
   import { HorField, HorCellGroup } from '@daysnap/horn-ui'
-  import { useTransfer } from '@daysnap/horn-use'
-  import { banana } from '@daysnap/banana'
+  import { useTransfer } from '@pkstar/vue-use'
+  import { banana } from '@pkstar/banana'
   import { addPhoneContact } from './index'
 
   const handleTransfer = useTransfer()

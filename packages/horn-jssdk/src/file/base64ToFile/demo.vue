@@ -36,8 +36,8 @@
 <script setup lang="ts">
   import { reactive, ref, shallowRef } from 'vue'
   import { HorCell, HorCellGroup, HorActionSheet, HorActionSheetInstance } from '@daysnap/horn-ui'
-  import { useTransfer } from '@daysnap/horn-use'
-  import { banana } from '@daysnap/banana'
+  import { useTransfer } from '@pkstar/vue-use'
+  import { banana } from '@pkstar/banana'
   import { chooseImage } from '../../media'
   import { base64ToFile, Base64ToFileResult, fileToBase64, FileToBase64Result } from '..'
   import { showLoadingToast, showToast } from 'vant'

@@ -24,7 +24,7 @@
 <script setup lang="ts">
   import { HorRadio, HorCellGroup } from '@daysnap/horn-ui'
   import { reactive, shallowRef, ref } from 'vue'
-  import { useTransfer } from '@daysnap/horn-use'
+  import { useTransfer } from '@pkstar/vue-use'
   import { scanCode } from './index'
 
   const handleTransfer = useTransfer()

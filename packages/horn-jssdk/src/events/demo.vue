@@ -51,8 +51,8 @@
   import { reactive, shallowRef, ref } from 'vue'
   import { showConfirmDialog, showToast } from 'vant'
   import { HorField, HorCellGroup, HorCell } from '@daysnap/horn-ui'
-  import { useTransfer } from '@daysnap/horn-use'
-  import { banana } from '@daysnap/banana'
+  import { useTransfer } from '@pkstar/vue-use'
+  import { banana } from '@pkstar/banana'
   import { scanCode } from '../device'
   import * as events from './index'
 

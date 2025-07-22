@@ -1,6 +1,6 @@
 {
   "name": "@pkstar/horn-jssdk",
-  "version": "0.0.18",
+  "version": "0.0.1",
   "description": "原生容器面向 H5 开发者提供的基于容器应用内的网页开发工具包",
   "main": "src/index.ts",
   "publishConfig": {
@@ -46,18 +46,15 @@
   },
   "homepage": "https://github.com/daysnap/jssdk#readme",
   "devDependencies": {
-    "@daysnap/banana": "^0.0.10",
-    "@daysnap/horn-ui": "workspace:*",
-    "@daysnap/horn-use": "workspace:*",
-    "@daysnap/utils": "^0.0.64",
+    "@pkstar/banana": "workspace:*",
+    "@daysnap/horn-ui": "^0.0.47",
+    "@pkstar/vue-use": "workspace:*",
+    "@pkstar/utils": "workspace:*",
     "@types/jest": "^27.4.1",
     "jest": "^27.5.1",
     "ts-jest": "^27.1.4",
     "typescript": "^5.0.2",
     "vant": "^4.3.1",
     "vue": "^3.2.47"
-  },
-  "peerDependencies": {
-    "@daysnap/utils": ">=0.0.48"
   }
 }

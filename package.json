@@ -20,7 +20,11 @@
     "build:vue-use": "pnpm -C ./packages/vue-use build",
     "build:utils": "pnpm -C ./packages/utils build",
     "build:banana": "pnpm -C ./packages/banana build:tsc",
-    "release": "npm run release:vue-use",
+    "jssdk:build": "pnpm -C ./packages/horn-jssdk build",
+    "jssdk:release": "pnpm -C ./packages/horn-jssdk release",
+    "jssdk:sync": "pnpm -C ./packages/horn-jssdk sync",
+    "release": "npm run jssdk:release && npm run use:release && npm run ui:release",
+    "sync": "npm run ui:sync && npm run use:sync && npm run jssdk:sync",
     "release:vue-use": "pnpm -C ./packages/vue-use release",
     "release:utils": "pnpm -C ./packages/utils release"
   },

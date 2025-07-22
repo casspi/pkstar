@@ -24,8 +24,8 @@
   import { reactive, shallowRef } from 'vue'
   import { showConfirmDialog } from 'vant'
   import { HorField, HorCellGroup } from '@daysnap/horn-ui'
-  import { useTransfer } from '@daysnap/horn-use'
-  import { banana } from '@daysnap/banana'
+  import { useTransfer } from '@pkstar/vue-use'
+  import { banana } from '@pkstar/banana'
   import { scanCode } from '../../device'
   import { closeScreenAnimation, openScreenAnimation } from '../'
 

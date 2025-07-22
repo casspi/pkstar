@@ -1,26 +1,85 @@
 <template>
-  <div class="main">
-    <header>
-      <div class="wrapper">
-        <nav>
-          <RouterLink to="/">Home</RouterLink>
-          <RouterLink to="/about?aa=11">About</RouterLink>
-          <RouterLink to="/banana">banana</RouterLink>
-          <RouterLink to="/utils">utils</RouterLink>
-        </nav>
-      </div>
-    </header>
-
-    <RouterView />
-  </div>
+  <RouterView v-slot="{ Component }">
+    <Transition :name="transitionName">
+      <KeepAlive max="10" :include="includes">
+        <Component
+          class="view-wrap"
+          :class="{ 'hide-header': isMiniProgram }"
+          :is="Component"
+          :key="getKey($route)"
+        />
+      </KeepAlive>
+    </Transition>
+  </RouterView>
+  <DebugPanel v-if="__DEV__">
+    <p>includes: {{ includes }}</p>
+    <p>transitionName: {{ transitionName }}</p>
+  </DebugPanel>
 </template>
 
 <script setup lang="ts">
-  import { RouterLink, RouterView } from 'vue-router'
+  import { useTransitionName, useKeepAlive } from '@pkstar/vue-use'
+  import jssdk from '@pkstar/horn-jssdk'
+  import { __DEV__, isMiniProgram } from '@/utils'
+  import type { RouteLocationNormalizedLoaded } from 'vue-router'
+
+  const { includes, keepAliveList } = useKeepAlive(300)
+  // 重置 keepAlive
+  window.resetKeepAlive = () => {
+    includes.value = []
+    keepAliveList.value = []
+  }
+
+  const getKey = (route: RouteLocationNormalizedLoaded) => {
+    const { path, fullPath } = route
+    if (['', '/home', '/work', '/todo', '/mine'].includes(path)) {
+      return
+    }
+    return fullPath
+  }
+
+  const transitionName = useTransitionName({
+    enterClass: 'slide-plus-left',
+    leaveClass: 'slide-plus-right',
+  })
+
+  onMounted(() => {
+    jssdk.closeScreenAnimation()
+  })
+
+  const route = useRoute()
 </script>
 
-<style scoped>
-  .main {
-    padding: 10px;
+<style lang="scss">
+  @import '@/assets/scss/global.scss';
+  .view-wrap {
+    @extend %pa;
+    @extend %t0;
+    @extend %l0;
+    @extend %w100;
+    @extend %h100;
+    @extend %bsb;
+    @extend %oya;
+    background-color: #f5f5f5;
+    &.is-white {
+      background-color: #fff;
+    }
+    &.is-fullscreen {
+      @extend %oh;
+    }
+    &.is-pt {
+      padding-top: j(10);
+    }
+    &.is-pb {
+      padding-bottom: j(96);
+    }
+    &.hide-header {
+      .hor-header {
+        @extend %dn;
+      }
+    }
+  }
+  .c-bar {
+    height: j(10);
   }
 </style>

@@ -28,8 +28,8 @@
     HorActionSheet,
     HorActionSheetInstance,
   } from '@daysnap/horn-ui'
-  import { useTransfer } from '@daysnap/horn-use'
-  import { banana } from '@daysnap/banana'
+  import { useTransfer } from '@pkstar/vue-use'
+  import { banana } from '@pkstar/banana'
   import { chooseVideo } from '../../media'
   import { scanCode } from '../../device'
   import { previewVideo } from '.'

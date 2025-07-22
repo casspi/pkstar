@@ -25,8 +25,8 @@
 <script setup lang="ts">
   import { reactive, ref, shallowRef } from 'vue'
   import { HorField, HorCellGroup, HorActionSheet, HorActionSheetInstance } from '@daysnap/horn-ui'
-  import { useTransfer } from '@daysnap/horn-use'
-  import { banana } from '@daysnap/banana'
+  import { useTransfer } from '@pkstar/vue-use'
+  import { banana } from '@pkstar/banana'
   import { scanCode } from '../../device'
   import { downloadFile } from '../../network'
   import { openDocument } from '.'

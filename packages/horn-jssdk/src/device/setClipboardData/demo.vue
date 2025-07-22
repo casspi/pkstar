@@ -39,8 +39,8 @@
 <script setup lang="ts">
   import { reactive, shallowRef, ref } from 'vue'
   import { HorCellGroup, HorCell } from '@daysnap/horn-ui'
-  import { useTransfer } from '@daysnap/horn-use'
-  import { banana } from '@daysnap/banana'
+  import { useTransfer } from '@pkstar/vue-use'
+  import { banana } from '@pkstar/banana'
   import { getClipboardData, setClipboardData } from '../index'
   import { scanCode } from '../index'
   import { showLoadingToast, showToast } from 'vant'

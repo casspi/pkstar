@@ -41,7 +41,7 @@
     // eslint-disable-next-line vue/no-setup-props-destructure
     usePaging<NoticeItem>(
       async ([pageindex, pagesize], { loading }) => {
-        const { content } = await reqNoticeList({ pageindex, pagesize, isRead: 'Y' }, loading)
+        const content = await reqNoticeList({ pageindex, pagesize, isRead: 'Y' }, loading)
         return [content, 99]
       },
       {

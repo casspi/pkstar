@@ -31,7 +31,7 @@ instance.interceptors.response.use(
     }
 
     // eslint-disable-next-line prefer-const
-    let { rtnCode, rtnMsg, content } = respData
+    let { rtnCode, rtnMsg, content, mark } = respData
     // token 过期
     if (['2'].includes(rtnCode)) {
       const { logout } = useUserinfoStore()
@@ -45,7 +45,12 @@ instance.interceptors.response.use(
       return Promise.reject(rtnMsg || `网络繁忙，请稍后再试(2)`)
     }
 
-    return respData
+    // 登录接口返回数据特殊处理
+    if (config.url?.includes('user/login.json')) {
+      return respData
+    } else {
+      return content || mark
+    }
   },
   (error) => {
     log(error.config, '请求错误 => ', error)

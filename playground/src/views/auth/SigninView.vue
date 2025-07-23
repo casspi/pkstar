@@ -37,7 +37,7 @@
   const type = ref(2)
   const objForm = reactive<MetaDataObject>({
     username: {
-      value: __DEV__ ? '001' : '',
+      value: __DEV__ ? '15821647520' : '',
       is: markRaw(FormField),
       use: [1, 2],
       props: {

@@ -11,10 +11,10 @@
       </KeepAlive>
     </Transition>
   </RouterView>
-  <DebugPanel v-if="__DEV__">
+  <!-- <DebugPanel v-if="__DEV__">
     <p>includes: {{ includes }}</p>
     <p>transitionName: {{ transitionName }}</p>
-  </DebugPanel>
+  </DebugPanel> -->
 </template>
 
 <script setup lang="ts">
@@ -44,7 +44,7 @@
   })
 
   onMounted(() => {
-    jssdk.closeScreenAnimation()
+    // jssdk.closeScreenAnimation()
   })
 
   const route = useRoute()

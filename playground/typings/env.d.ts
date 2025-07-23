@@ -29,6 +29,8 @@ declare global {
 
   const wx: any
 
+  const BMapGL: any
+  const BMap: any
   interface Window {
     resetKeepAlive(): void
   }

@@ -27,12 +27,12 @@
     {
       title: '打卡',
       icon: new URL('@/assets/img/icon/woke_punchcard.png', import.meta.url).href,
-      path: '/oa/attend',
+      path: '/attend',
     },
     {
       title: '签到',
       icon: new URL('@/assets/img/icon/woke_sign.png', import.meta.url).href,
-      path: '/oa/notice',
+      path: '/sign',
     },
     {
       title: '审批',

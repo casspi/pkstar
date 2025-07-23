@@ -6,6 +6,7 @@ body {
   @extend %w100;
   background-color: #fff;
   height: 100vh;
+  height: 100dvh;
 }
 
 #app {
@@ -14,6 +15,22 @@ body {
   font-size: j(16);
 }
 
+.c-select{
+  border: j(1) solid #1d2129;
+  color: #666;
+  height: j(30);
+  font-size: j(12);
+  font-weight: bold;
+  padding: 0 j(5);
+  width: j(100);
+  border-radius: j(15);
+  @extend %df;
+  @extend %aic;
+  @extend %jcc;
+  span{
+    margin-right: j(5);
+  }
+}
 .c-cell-title {
   background-color: #f6f6f6 !important;
   &.hor-cell {

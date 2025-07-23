@@ -9,7 +9,7 @@
   >
     <ProSchemaForm
       class="pro-schema-filter-form"
-      :metadata="metadata"
+      :metadata="[]"
       @field-change="$emit('field-change', $event)"
     />
   </van-dialog>

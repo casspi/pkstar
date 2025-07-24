@@ -9,10 +9,11 @@
 </template>
 
 <script setup lang="ts">
-  import type { PropType } from 'vue'
   import { isEmpty, isFunction } from '@pkstar/utils'
-  import type { ProSchemaRenderMetadata, ProSchemaRenderField } from './types'
+  import type { PropType } from 'vue'
+
   import ProSchemaRenderComponent from './ProSchemaRenderComponent.vue'
+  import type { ProSchemaRenderField, ProSchemaRenderMetadata } from './types'
 
   type FormatRenderMetadataFiled = Omit<ProSchemaRenderField, 'children'> & {
     children: FormatRenderMetadataFiled[]
@@ -25,10 +26,8 @@
       >,
       default: () => [],
     },
-    source: {
-      type: Object,
-      default: () => ({}),
-    },
+    source: { type: Object, default: () => ({}) },
+    shwoEmptyField: { type: Boolean, default: false },
   })
 
   const computeMetadata = computed(() => {
@@ -64,7 +63,7 @@
         if (isEmpty(value)) {
           value = defValue
         }
-        if (isEmpty(value) && !item.children?.length && key) {
+        if (isEmpty(value) && !item.children?.length && key && !props.shwoEmptyField) {
           item.hidden = true
         }
         if (!key && item.children && !item.children.length) {

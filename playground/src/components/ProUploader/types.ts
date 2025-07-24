@@ -2,7 +2,11 @@ import { horCellProps } from '@daysnap/horn-ui/src/hor-cell/types'
 import { omit } from '@pkstar/utils'
 import type { PropType } from 'vue'
 
-type ModelValue = Array<string>
+type ModelValue = Array<{
+  filename: string
+  id: number
+  url: string
+}>
 type CropType = Array<number> | false
 export const omitHorCellPropsInUploader = {
   ...omit(horCellProps, ['value', 'direction']),
@@ -60,6 +64,11 @@ export const omitHorCellPropsInUploader = {
   },
   // 数据为空时的兜底图
   emptyImg: {
+    type: String,
+    default: '',
+  },
+  // 业务来源
+  source: {
     type: String,
     default: '',
   },

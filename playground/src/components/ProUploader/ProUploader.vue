@@ -8,7 +8,11 @@
       <ul class="img-warp">
         <template v-if="modelValue.length">
           <li v-for="(item, index) in modelValue" :key="index">
-            <ProImg :src="item" :preview="props.modelValue" :preview-index="index" />
+            <ProImg
+              :src="item.url"
+              :preview="props.modelValue.map((item) => item.url)"
+              :preview-index="index"
+            />
             <HorIcon
               v-if="!disabled"
               class="del-icon"
@@ -131,7 +135,7 @@
     async (fileList: File[]) =>
       Promise.all(
         fileList.map((file) => {
-          return doFileUpload({ file })
+          return doFileUpload({ file }, props.source)
         }),
       ),
     true,
@@ -166,15 +170,15 @@
     @extend %fww;
     width: 100%;
     li {
-      width: 30%;
+      width: 22%;
       // height: j(90);
       aspect-ratio: 1;
       background-color: #eee;
-      margin-bottom: 5%;
+      margin-bottom: 3%;
       @extend %pr;
 
-      &:not(:nth-child(3n)) {
-        margin-right: 5%;
+      &:not(:nth-child(4n)) {
+        margin-right: 3%;
       }
 
       img {

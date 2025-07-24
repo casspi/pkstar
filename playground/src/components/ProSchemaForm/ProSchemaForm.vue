@@ -12,7 +12,7 @@
         v-bind="item.props"
         v-model="item.value"
         @click="handleTransfer(item)"
-        @change="$emit('filed-change', { key, item })"
+        @change="$emit('field-change', { key, item })"
         @focus="$emit('field-focus', { key, item })"
         @blur="$emit('field-blur', { key, item })"
       >
@@ -25,24 +25,6 @@
 </template>
 
 <script lang="ts">
-  import {
-    HorField,
-    HorCheckbox,
-    HorRadio,
-    HorDatePicker,
-    HorCell,
-    HorLicensePlate,
-    HorTextarea,
-    HorCellPicker,
-    HorCheckboxButton,
-    HorRadioButton,
-    HorDateRangePicker,
-    HorSelectPopup,
-    HorTreeSelectPopup,
-    HorSelectPicker,
-    HorCellGroup,
-    HorUploader,
-  } from '@daysnap/horn-ui'
   import '@daysnap/horn-ui/src/hor-cell/style'
   import '@daysnap/horn-ui/src/hor-cell-picker/style'
   import '@daysnap/horn-ui/src/hor-field/style'
@@ -59,16 +41,35 @@
   import '@daysnap/horn-ui/src/hor-select-picker/style'
   import '@daysnap/horn-ui/src/hor-uploader/style'
 
-  import ProUploader from '../ProUploader/ProUploader.vue'
+  import { ProUploader } from '../ProUploader'
+  import type { MetaDataObject } from '@pkstar/banana'
+  import {
+    HorCell,
+    HorCellGroup,
+    HorCellPicker,
+    HorCheckbox,
+    HorCheckboxButton,
+    HorDatePicker,
+    HorDateRangePicker,
+    HorField,
+    HorLicensePlate,
+    HorRadio,
+    HorRadioButton,
+    HorSelectPicker,
+    HorSelectPopup,
+    HorTextarea,
+    HorTreeSelectPopup,
+    HorUploader,
+  } from '@daysnap/horn-ui'
+  import { isFunction } from '@daysnap/utils'
   import { useTransfer } from '@pkstar/vue-use'
   import { type PropType } from 'vue'
+
   import type { ProSchemaFormMetadata } from './types'
-  import type { MetaDataObject } from '@pkstar/banana'
-  import { isFunction } from '@pkstar/utils'
 
   export default defineComponent({
     name: 'ProSchemaForm',
-    emits: ['filed-change', 'field-focus', 'field-blur'],
+    emits: ['field-change', 'field-focus', 'field-blur'],
     props: {
       metadata: {
         type: Object as PropType<ProSchemaFormMetadata>,
@@ -89,7 +90,7 @@
             res[key] = item
           }
 
-          item.props = Object.assign({}, item.props, {
+          item.props = Object.assign(item.props || {}, {
             required: !!item?.rules?.find((item: any) => item.required),
           })
           return res

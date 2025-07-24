@@ -1,11 +1,12 @@
 // 打卡入参
 export interface AttendDto {
-  locationName: string
+  locationName?: string
+  locationDetail?: string
   fileIds: string
   longitude: string
   latitude: string
-  type: string
-  attendType: string
+  type: 'sign' | 'attend'
+  attendType?: string
   remark: string
 }
 

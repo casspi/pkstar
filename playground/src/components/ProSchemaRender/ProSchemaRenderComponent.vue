@@ -20,15 +20,14 @@
 </template>
 
 <script lang="ts">
-  import { HorCell, HorCellGroup } from '@daysnap/horn-ui'
-  import { useTransfer } from '@pkstar/vue-use'
-  import { omit } from '@pkstar/utils'
-  import type { ProSchemaRenderField } from './types'
-  import CellBlock from '../CellBlock.vue'
-  import ProUploader from '../ProUploader/ProUploader.vue'
-
   import '@daysnap/horn-ui/src/hor-cell/style'
   import '@daysnap/horn-ui/src/hor-cell-group/style'
+
+  import { HorCell, HorCellGroup } from '@daysnap/horn-ui'
+  import { omit } from '@pkstar/utils'
+  import { useTransfer } from '@pkstar/vue-use'
+
+  import type { ProSchemaRenderField } from './types'
 
   type FormatRenderMetadataFiled = Omit<ProSchemaRenderField, 'children'> & {
     children: FormatRenderMetadataFiled[]
@@ -51,10 +50,8 @@
       }
     },
     components: {
-      CellBlock,
       HorCell,
       HorCellGroup,
-      ProUploader,
     },
   })
 </script>

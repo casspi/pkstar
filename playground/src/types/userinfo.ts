@@ -26,9 +26,10 @@ interface Content {
   isReportSign: string
   isHourSign: string
   isPlanSign: string
+  roleName: string
 }
 
-interface UserRole {
+export interface UserRole {
   roleId: number
   roleName: string
   roleType: string

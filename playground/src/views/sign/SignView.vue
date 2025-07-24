@@ -16,35 +16,60 @@
       </li>
     </ul>
     <div class="sign-btn"><HorIcon name="location" size="30" @click="handleSign" />签到</div>
+
+    <!-- 签到弹框 -->
+    <SignPopup ref="signPopupRef" />
   </HorView>
 </template>
 
 <script setup lang="ts">
-  import { reqFaceCheck } from '@/api'
+  import { doAttend, reqFaceCheck } from '@/api'
   import { useUserinfoStore } from '@/stores'
-  import { appendBmap } from '@/utils'
+  import { appendBmap, isApp } from '@/utils'
   import { formatDate, isIOS } from '@pkstar/utils'
+  import { useKeepAlive } from '@pkstar/vue-use'
+  import SignPopup from '@/components/SignPopup.vue'
+  import { showSuccessToast } from 'vant'
 
+  const { userinfo } = useUserinfoStore()
+  const router = useRouter()
+  useKeepAlive()
+
+  const signPopupRef = ref<InstanceType<typeof SignPopup>>()
   const now = new Date()
   const nowStr = formatDate(now, 'yyyy年MM月dd日 hh:mm:ss')
   const week = now.getDay()
   const weekStr = ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'][week]
   const time = now.getHours() + ':' + now.getMinutes()
 
-  const { userinfo } = useUserinfoStore()
-  const router = useRouter()
   const handleRight = () => {
     router.push('/sign-list')
   }
   const handleSign = async () => {
-    const res = await reqFaceCheck({
-      dataId: `${isIOS() ? 'ios' : 'android'}${Date.now()}`,
-      username: userinfo?.content.mobile!,
-      image: 'base64',
-    })
-    if (res !== '0') {
-      router.back()
-      throw '非本人签到，系统不允许'
+    if (isApp) {
+      const res = await reqFaceCheck({
+        dataId: `${isIOS() ? 'ios' : 'android'}${Date.now()}`,
+        username: userinfo?.content.mobile!,
+        image: 'base64',
+      })
+      if (res !== '0') {
+        router.back()
+        throw '非本人签到，系统不允许'
+      }
+    }
+
+    const res = await signPopupRef.value?.show()
+    if (res) {
+      const { locationName: locationDetail, remark, fileIds } = res
+      await doAttend({
+        longitude: '121.386341',
+        latitude: '31.256662',
+        type: 'sign',
+        locationDetail,
+        remark,
+        fileIds,
+      })
+      showSuccessToast('签到成功')
     }
   }
   onMounted(async () => {

@@ -77,7 +77,11 @@
     const options = banana.validate(computedForm.value)
 
     const userinfo = await doUserLoginByPassword(options)
+    const { roleId } = userinfo.content
+    const role = userinfo.userRoles.find((item) => item.roleId === roleId)
+    userinfo.content.roleName = role?.roleName ?? ''
     setUserinfo(userinfo)
+
     router.back()
     setTimeout(() => showSuccessToast('登录成功'))
   })

@@ -11,15 +11,14 @@
       </KeepAlive>
     </Transition>
   </RouterView>
-  <!-- <DebugPanel v-if="__DEV__">
+  <DebugPanel v-if="__DEV__">
     <p>includes: {{ includes }}</p>
     <p>transitionName: {{ transitionName }}</p>
-  </DebugPanel> -->
+  </DebugPanel>
 </template>
 
 <script setup lang="ts">
   import { useTransitionName, useKeepAlive } from '@pkstar/vue-use'
-  import jssdk from '@pkstar/horn-jssdk'
   import { __DEV__, isMiniProgram } from '@/utils'
   import type { RouteLocationNormalizedLoaded } from 'vue-router'
 

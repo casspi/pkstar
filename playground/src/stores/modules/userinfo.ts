@@ -4,7 +4,6 @@ import { defineStore } from 'pinia'
 import type { Userinfo } from '@/types'
 import { createNamespace, isApp, isMiniProgram } from '@/utils'
 import { router } from '@/router'
-import { doUserLogOut } from '@/api'
 import { withOut } from '../withOut'
 import { withToRefs } from '..'
 
@@ -18,13 +17,6 @@ export const useUserinfoStore = withToRefs(
         // 退出逻辑判断  这里加了节流
         const logout = throttle(
           () => {
-            // 如果是在小程序中
-            if (isMiniProgram) {
-              wx.miniProgram.postMessage({ data: 'USER_LOGOUT' })
-              wx.miniProgram.navigateBack()
-              return
-            }
-
             if (window.location.hash.includes('/signin')) {
               // 已经是登录页面 不用再执行下面的逻辑
               // 防止多接口一直触发退出
@@ -35,7 +27,6 @@ export const useUserinfoStore = withToRefs(
                 // 同上
                 return
               }
-              doUserLogOut()
               setUserinfo(void 0)
               window.resetKeepAlive()
               router.replace('/')

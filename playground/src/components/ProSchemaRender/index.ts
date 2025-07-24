@@ -1,7 +1,7 @@
 import Component from './ProSchemaRender.vue'
 
-export * from './useProSchemaRender'
 export * from './types'
+export * from './useProSchemaRender'
 
 export const ProSchemaRender = Component
 export default ProSchemaRender

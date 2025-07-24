@@ -1,5 +1,6 @@
-import type { ProSchemaFormMetadata } from '@/components'
-import { isFunction } from '@pkstar/utils'
+import { isFunction } from '@daysnap/utils'
+
+import type { ProSchemaFormMetadata } from './types'
 
 export function useProSchemaForm(fields: ProSchemaFormMetadata | (() => ProSchemaFormMetadata)) {
   return reactive(isFunction(fields) ? fields() : fields)

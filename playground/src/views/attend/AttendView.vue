@@ -15,6 +15,7 @@
       <span>{{ time }}</span>
       上班打卡
     </div>
+    <!-- 打卡弹框 -->
     <SignPopup ref="signPopupRef" />
   </HorView>
 </template>
@@ -22,10 +23,15 @@
 <script setup lang="ts">
   import { doAttend, reqFaceCheck } from '@/api'
   import { useUserinfoStore } from '@/stores'
-  import { appendBmap } from '@/utils'
+  import { appendBmap, isApp } from '@/utils'
   import { formatDate, isIOS } from '@pkstar/utils'
   import { showSuccessToast } from 'vant'
   import SignPopup from '@/components/SignPopup.vue'
+  import { useKeepAlive } from '@pkstar/vue-use'
+
+  const router = useRouter()
+  const { userinfo } = useUserinfoStore()
+  useKeepAlive()
 
   const now = new Date()
   const nowStr = formatDate(now, 'yyyy年MM月dd日 hh:mm:ss')
@@ -33,33 +39,31 @@
   const weekStr = ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'][week]
   const time = now.getHours() + ':' + now.getMinutes()
 
-  const router = useRouter()
-  const { userinfo } = useUserinfoStore()
   const signPopupRef = ref<InstanceType<typeof SignPopup>>()
 
   const handleRight = () => {
     router.push('/attend/attend-list')
   }
   const handleAttend = async () => {
-    const formData = await signPopupRef.value?.show()
-    console.log('formData', formData)
-    const res = await reqFaceCheck({
-      dataId: `${isIOS() ? 'ios' : 'android'}${Date.now()}`,
-      username: userinfo?.content.mobile!,
-      image: 'base64',
-    })
-    if (res !== '0') {
-      router.back()
-      throw '非本人签到，系统不允许'
+    if (isApp) {
+      const res = await reqFaceCheck({
+        dataId: `${isIOS() ? 'ios' : 'android'}${Date.now()}`,
+        username: userinfo?.content.mobile!,
+        image: 'base64',
+      })
+      if (res !== '0') {
+        router.back()
+        throw '非本人打卡，系统不允许'
+      }
     }
+
+    const remarkData = await signPopupRef.value?.show()
     await doAttend({
-      locationName: '真北路2251号商务办公中心',
-      fileIds: '',
       longitude: '121.386341',
       latitude: '31.256662',
       type: 'attend',
       attendType: 'startwork',
-      remark: '',
+      ...remarkData!,
     })
     showSuccessToast('打卡成功')
   }

@@ -38,6 +38,7 @@
   })
 
   const getUrl = (props: Record<string, any>) => {
+    console.log('propsprops', props)
     let { src, ratio, defSrc, baseUrl } = props
     if (!src) {
       return defSrc

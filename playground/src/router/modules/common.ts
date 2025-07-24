@@ -66,6 +66,13 @@ export default defineRoutes([
   },
 
   {
+    path: '/location/lift',
+    name: 'LocationNameView',
+    component: () => import('@/views/common/LocationNameView.vue'),
+    meta: { title: '我在这里', requiresAuth: 0 },
+  },
+
+  {
     path: '/preview/image',
     name: 'PreviewImageView',
     component: () => import('@/views/preview/PreviewImageView.vue'),

@@ -1,5 +1,8 @@
 <template>
-  <HorView class="profile-view">
+  <HorView class="profile-view" @click="$router.push('/profile-edit')">
+    <template #right>
+      <span>编辑</span>
+    </template>
     <ProSchemaRender :fields="fields" :source="userinfo?.content" shwoEmptyField> </ProSchemaRender>
   </HorView>
 </template>

@@ -6,6 +6,7 @@ export function validate<T = any>(metaData: MetaData, options: ExtractOptions = 
   let loop: any
   ;(loop = (source: MetaData) => {
     each<Field>(source as any, (field) => {
+      // eslint-disable-next-line prefer-const
       let { value, rules, hidden, children, label } = field
       if (children) {
         loop(children)

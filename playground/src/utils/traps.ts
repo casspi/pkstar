@@ -1,5 +1,7 @@
 import { createTrapInstance } from '@pkstar/utils'
 
+// 公告列表刷新
+export const noticeListTrap = createTrapInstance('trap:notice-list:refresh')
 // 我的位置地名选择
 export const locationNameTrap = createTrapInstance('trap:notice-list:refresh')
 

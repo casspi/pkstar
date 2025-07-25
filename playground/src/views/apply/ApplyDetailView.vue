@@ -20,7 +20,7 @@
 
       <div class="c-bar"></div>
 
-      <VanSteps direction="vertical" :active="0">
+      <VanSteps direction="vertical" :active="99">
         <VanStep v-for="(item, index) in data.logs" :key="index">
           <div class="c-col-item">
             <UserAvatar class="c-avatar" :src="item.iconPath" />

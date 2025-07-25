@@ -1,6 +1,6 @@
 import { defineRoutes } from '@/router/defineRoutes'
 import MainView from '@/views/main/MainView.vue'
-import TodoView from '@/views/oa/TodoView.vue'
+import ApplyWaitView from '@/views/apply/wait/ApplyWaitView.vue'
 import WorkView from '@/views/work/WorkView.vue'
 import MineViewVue from '@/views/mine/MineView.vue'
 import MessageView from '@/views/message/MessageView.vue'
@@ -36,8 +36,8 @@ export default defineRoutes([
       },
       {
         path: '/todo',
-        name: 'TodoView',
-        component: TodoView,
+        name: 'ApplyBarView',
+        component: ApplyWaitView,
         meta: {
           title: '待我审批',
           requiresAuth: 1,
@@ -70,6 +70,13 @@ export default defineRoutes([
     name: 'LocationNameView',
     component: () => import('@/views/common/LocationNameView.vue'),
     meta: { title: '我在这里', requiresAuth: 0 },
+  },
+
+  {
+    path: '/dep/lift',
+    name: 'DepLiftView',
+    component: () => import('@/views/common/DepLiftView.vue'),
+    meta: { title: '请选择部门', requiresAuth: 1 },
   },
 
   {

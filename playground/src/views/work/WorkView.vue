@@ -37,7 +37,7 @@
     {
       title: '审批',
       icon: new URL('@/assets/img/icon/woke_approval.png', import.meta.url).href,
-      path: '/oa/notice',
+      path: '/apply',
     },
   ]
 </script>

@@ -31,6 +31,7 @@
 
   const getKey = (route: RouteLocationNormalizedLoaded) => {
     const { path, fullPath } = route
+    console.log('path', path)
     if (['', '/home', '/work', '/todo', '/mine'].includes(path)) {
       return
     }

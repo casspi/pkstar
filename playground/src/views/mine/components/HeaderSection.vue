@@ -1,8 +1,13 @@
 <template>
   <div class="header-section">
-    <img class="user-img" src="@/assets/img/default_user.png" alt="user" />
+    <ProImg
+      class="user-img"
+      :def-src="defSrc"
+      :src="userinfo?.content.smallImage"
+      alt="user"
+      @click="handleUserAvatar()"
+    />
     <div class="info">
-      <!-- <span>{{ userinfo?.content.compName }}-</span> -->
       <span>{{ userinfo?.content.depName }}</span>
       <span> {{ userinfo?.content.realName }}</span>
     </div>
@@ -11,8 +16,15 @@
 
 <script setup lang="ts">
   import { useUserinfoStore } from '@/stores'
+  import { showChooseSourceType } from '@/utils'
+  import defSrc from '@/assets/img/default_user.png'
 
   const { userinfo } = useUserinfoStore()
+
+  const handleUserAvatar = async () => {
+    const type = await showChooseSourceType()
+    console.log(type)
+  }
 </script>
 
 <style lang="scss" scoped>

@@ -12,7 +12,7 @@
 <script setup lang="ts">
   import type { NoticeItem } from '@/types'
 
-  const props = defineProps({
+  defineProps({
     item: {
       type: Object as PropType<NoticeItem>,
       default: () => {},

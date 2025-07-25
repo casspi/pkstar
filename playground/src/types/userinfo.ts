@@ -2,12 +2,12 @@ export interface Userinfo {
   userRoles: UserRole[]
   cmdType: string
   rtnMsg: string
-  content: Content
+  content: UserinfoContent
   rtnCode: string
   token: string
 }
 
-interface Content {
+export interface UserinfoContent {
   userId: number
   realName: string
   gender: string
@@ -27,6 +27,7 @@ interface Content {
   isHourSign: string
   isPlanSign: string
   roleName: string
+  smallImage?: string
 }
 
 export interface UserRole {

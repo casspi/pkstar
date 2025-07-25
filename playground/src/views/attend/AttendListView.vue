@@ -1,9 +1,9 @@
 <template>
   <HorView class="attend-list-view">
     <div class="c-bar"></div>
-    <div class="user-info">
+    <div class="c-user-info">
       <div class="user">
-        <img class="avatar" src="@/assets/img/default_user.png" alt="" srcset="" />
+        <UserAvatar class="c-avatar" :src="userinfo?.content.smallImage" />
         <span>{{ userinfo?.content.realName }}</span>
       </div>
       <MonthSelect v-model="currentMonth" />
@@ -116,23 +116,7 @@
 
 <style lang="scss" scoped>
   @use '@/assets/scss/define.scss' as *;
-  .user-info {
-    padding: j(10) j(15);
-    font-size: j(12);
-    @extend %df;
-    @extend %jcs;
-    @extend %aic;
-    .user {
-      @extend %df;
-      @extend %aic;
-    }
-    background-color: #fff;
-  }
-  .avatar {
-    width: j(40);
-    height: j(40);
-    margin-right: j(10);
-  }
+
   .attend-info {
     background-color: #fff;
     padding: j(10) j(15);

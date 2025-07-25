@@ -3,7 +3,7 @@
 </template>
 
 <script setup lang="ts">
-  import defSrc from './icon-def-avatar.png'
+  import defSrc from '@/assets/img/default_user.png'
 
   defineProps({
     src: {

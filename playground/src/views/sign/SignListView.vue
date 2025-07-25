@@ -1,9 +1,9 @@
 <template>
   <HorView class="attend-list-view">
     <div class="c-bar"></div>
-    <div class="user-info">
+    <div class="c-user-info">
       <div class="user">
-        <img class="avatar" src="@/assets/img/default_user.png" alt="" srcset="" />
+        <UserAvatar class="c-avatar" :src="userinfo?.content.smallImage" />
         <div class="user-info-content">
           <span class="name">{{ userinfo?.content.realName }}</span>
           <span>本月签到{{ data?.summ.signNum }}次</span>
@@ -15,7 +15,6 @@
     <dl class="sign-list">
       <dd class="sign-list-item" v-for="(item, index) in data?.sign" :key="index">
         <HorIcon class="icon" name="location-o" size="30" />
-        <!-- <img src="@/assets/img/icon/woke_sign.png" alt="" srcset="" /> -->
         <div class="sign-list-item-content">
           <span class="sign-list-item-content-date">{{ item.dt }}</span>
           <span class="sign-list-item-content-location">{{ item.locationDetail }}</span>
@@ -55,31 +54,6 @@
 
 <style lang="scss" scoped>
   @use '@/assets/scss/define.scss' as *;
-  .user-info {
-    padding: j(10) j(15);
-    font-size: j(12);
-    background-color: #fff;
-    @extend %df;
-    @extend %jcs;
-    @extend %aic;
-    .user {
-      @extend %df;
-      @extend %aic;
-    }
-    .name {
-      font-weight: bold;
-      margin-bottom: j(8);
-    }
-    .user-info-content {
-      @extend %df;
-      @extend %fdc;
-    }
-  }
-  .avatar {
-    width: j(40);
-    height: j(40);
-    margin-right: j(10);
-  }
   .attend-info {
     background-color: #fff;
     padding: j(10) j(15);

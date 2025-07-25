@@ -4,6 +4,8 @@ import { log } from './log'
 import { DEFAULT_CONFIG } from './config'
 
 export const instance = axios.create(DEFAULT_CONFIG)
+// 有些接口需要返回全部内容
+const resAllUrls = ['oa/applyDetail.json', 'user/login.json']
 
 // 请求拦截器 设置公共参数
 instance.interceptors.request.use(
@@ -46,7 +48,7 @@ instance.interceptors.response.use(
     }
 
     // 登录接口返回数据特殊处理
-    if (config.url?.includes('user/login.json')) {
+    if (resAllUrls.find((item) => config.url?.includes(item))) {
       return respData
     } else {
       return content || mark

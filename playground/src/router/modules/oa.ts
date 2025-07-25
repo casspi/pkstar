@@ -37,4 +37,40 @@ export default defineRoutes([
     component: () => import('@/views/sign/SignListView.vue'),
     meta: { title: '足迹', requiresAuth: 1 },
   },
+  {
+    path: '/apply',
+    name: 'ApplyHomeView',
+    component: () => import('@/views/apply/ApplyHomeView.vue'),
+    meta: { title: '审批', requiresAuth: 1 },
+  },
+  {
+    path: '/apply/:id',
+    name: 'ApplyDetailView',
+    component: () => import('@/views/apply/ApplyDetailView.vue'),
+    meta: { title: '审批详情', requiresAuth: 1 },
+  },
+  {
+    path: '/apply/wait',
+    name: 'ApplyWaitView',
+    component: () => import('@/views/apply/wait/ApplyWaitView.vue'),
+    meta: { title: '待我审批', requiresAuth: 1 },
+  },
+  {
+    path: '/apply/my',
+    name: 'ApplyMyView',
+    component: () => import('@/views/apply/my/ApplyMyView.vue'),
+    meta: { title: '我发起的', requiresAuth: 1 },
+  },
+  {
+    path: '/apply/done',
+    name: 'ApplyDoneView',
+    component: () => import('@/views/apply/done/ApplyDoneView.vue'),
+    meta: { title: '已审批', requiresAuth: 1 },
+  },
+  {
+    path: '/apply/notice',
+    name: 'ApplyNoticeView',
+    component: () => import('@/views/apply/notice/ApplyNoticeView.vue'),
+    meta: { title: '抄送我的', requiresAuth: 1 },
+  },
 ])

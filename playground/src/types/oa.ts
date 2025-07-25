@@ -65,3 +65,201 @@ interface SignSumm {
   month: string
   userId: number
 }
+
+// 审批相关
+export interface ApplyItem {
+  modifyDt: string
+  title: string
+  type: string
+  iconPath: string
+  isFinished: BooleanString
+  submitStatus: string
+  approveId: number
+  status: string
+}
+
+// 审批详情
+export interface ApplyDetailVo {
+  special: any[]
+  cmdType: string
+  approval: ApplyDetailApproval[]
+  rtnMsg: string
+  logs: ApplyDetailLog[]
+  content: {
+    overtime?: OvertimeDeatil
+    leave?: LeaveDeatil
+  }
+  rtnCode: string
+  approveSign: number
+}
+
+interface OvertimeDeatil {
+  reason: string
+  endDt: string
+  uuid: string
+  applyUserId: number
+  isProject: string
+  isAllDay: string
+  approvalId: number
+  myStatus: string
+  submitStatus: string
+  userdep: string
+  hours: number
+  isFinished: string
+  createDt: string
+  startDt: string
+  days: number
+  location: string
+  iconPath: string
+  username: string
+  status: string
+}
+interface LeaveDeatil {
+  reason: string
+  hours: number
+  typeName: string
+  endDt: string
+  isFinished: string
+  type: string
+  createDt: string
+  uuid: string
+  applyUserId: number
+  isAllDay: string
+  startDt: string
+  days: number
+  approvalId: number
+  myStatus: string
+  iconPath: string
+  pics: any[]
+  submitStatus: string
+  username: string
+  userdep: string
+  status: string
+}
+interface ApplyDetailLog {
+  activityDt: string
+  description: string
+  iconPath: string
+  username: string
+}
+
+interface ApplyDetailApproval {
+  activityDt: string
+  approveUserType: string
+  approvalType: string
+  iconPath: string
+  isFinished: string
+  userId: number
+  username: string
+  status: string
+}
+
+// {
+//     "special": [],
+//     "picarray": [],
+//     "cmdType": "",
+//     "approval": [
+//         {
+//             "activityDt": "2025-07-10 21:29:21",
+//             "approveUserType": "admin",
+//             "approvalType": "approve",
+//             "iconPath": "https://www.bianxiukaoqing.top/images/up/2507/7642025072422userImage42.jpg",
+//             "isFinished": "N",
+//             "userId": 764,
+//             "username": "system",
+//             "status": "init"
+//         }
+//     ],
+//     "rtnMsg": "成功",
+//     "logs": [
+//         {
+//             "activityDt": "2025-07-10 21:29:21",
+//             "description": "请假申请",
+//             "iconPath": "https://www.bianxiukaoqing.top/images/up/2507/9632025072516userImage40.jpg",
+//             "username": "刘广仓"
+//         },
+//         {
+//             "description": "等待审批",
+//             "iconPath": "https://www.bianxiukaoqing.top/images/up/2507/7642025072422userImage42.jpg",
+//             "username": "system"
+//         }
+//     ],
+//     "content": {
+//         "leave": {
+//             "reason": "OK",
+//             "hours": 0.0,
+//             "typeName": "病假",
+//             "endDt": "2025-09-10 00:00:00",
+//             "isFinished": "N",
+//             "type": "sick",
+//             "createDt": "2025-07-10 21:29:21",
+//             "uuid": "LV20250021",
+//             "applyUserId": 963,
+//             "isAllDay": "Y",
+//             "startDt": "2025-09-10 00:00:00",
+//             "days": 1,
+//             "approvalId": 18,
+//             "myStatus": "",
+//             "iconPath": "https://www.bianxiukaoqing.top/images/up/2507/9632025072516userImage40.jpg",
+//             "pics": [],
+//             "submitStatus": "submit",
+//             "username": "刘广仓",
+//             "userdep": "上海总部-行政部",
+//             "status": "init"
+//         }
+//     },
+//     "rtnCode": "0",
+//     "approveSign": 0
+// }
+
+// {
+// 	"special": [],
+// 	"cmdType": "",
+// 	"approval": [{
+// 		"activityDt": "2025-07-03 21:00:47",
+// 		"approveUserType": "admin",
+// 		"approvalType": "approve",
+// 		"iconPath": "https://www.bianxiukaoqing.top/images/up/2507/7642025072422userImage42.jpg",
+// 		"isFinished": "N",
+// 		"userId": 764,
+// 		"username": "system",
+// 		"status": "init"
+// 	}],
+// 	"rtnMsg": "成功",
+// 	"logs": [{
+// 		"activityDt": "2025-07-03 21:00:47",
+// 		"description": "加班申请",
+// 		"iconPath": "https://www.bianxiukaoqing.top/images/up/2507/9632025072516userImage40.jpg",
+// 		"username": "刘广仓"
+// 	}, {
+// 		"activityDt": "2025-07-03 21:02:47",
+// 		"description": "审批通过",
+// 		"iconPath": "https://www.bianxiukaoqing.top/images/up/2507/7642025072422userImage42.jpg",
+// 		"username": "system"
+// 	}],
+// 	"content": {
+// 		"overtime": {
+// 			"reason": "系统上线",
+// 			"endDt": "2025-07-03 00:00:00",
+// 			"uuid": "OT20250003",
+// 			"applyUserId": 963,
+// 			"isProject": "N",
+// 			"isAllDay": "Y",
+// 			"approvalId": 2,
+// 			"myStatus": "",
+// 			"submitStatus": "submit",
+// 			"userdep": "上海总部-行政部",
+// 			"hours": 0.0,
+// 			"isFinished": "Y",
+// 			"createDt": "2025-07-03 21:00:47",
+// 			"startDt": "2025-07-03 00:00:00",
+// 			"days": 1,
+// 			"location": "上海宝山",
+// 			"iconPath": "https://www.bianxiukaoqing.top/images/up/2507/9632025072516userImage40.jpg",
+// 			"username": "刘广仓",
+// 			"status": "pass"
+// 		}
+// 	},
+// 	"rtnCode": "0",
+// 	"approveSign": 0
+// }

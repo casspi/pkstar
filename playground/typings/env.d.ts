@@ -34,4 +34,6 @@ declare global {
   interface Window {
     resetKeepAlive(): void
   }
+
+  type BooleanString = 'N' | 'Y'
 }

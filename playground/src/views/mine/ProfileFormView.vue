@@ -1,5 +1,5 @@
 <template>
-  <HorView class="profile-view" @click="handleSubmit">
+  <HorView class="profile-view" @right="handleSubmit">
     <template #right>
       <span>确定</span>
     </template>
@@ -8,12 +8,20 @@
 </template>
 
 <script setup lang="ts">
+  import { doUserInfoUpdate } from '@/api'
   import { useProSchemaForm } from '@/components'
+  import { useDepField } from '@/hooks'
   import { useUserinfoStore } from '@/stores'
-  import { NOTICE_METHOD } from '@/utils'
+  import { NOTICE_METHOD, withLoading } from '@/utils'
   import banana from '@pkstar/banana'
   import { isEmail } from '@pkstar/utils'
-  const { userinfo } = useUserinfoStore()
+  import { useKeepAlive } from '@pkstar/vue-use'
+  import { showSuccessToast } from 'vant'
+
+  const { userinfo, setUserinfo } = useUserinfoStore()
+  useKeepAlive()
+
+  const depName = useDepField({})
   const metadata = useProSchemaForm({
     realName: {
       value: '',
@@ -23,7 +31,7 @@
         maxlength: 11,
         placeholder: '请输入',
       },
-      rules: [{ required: true, message: '请输入姓名' }],
+      rules: [{ required: false, message: '请输入姓名' }],
     },
     gender: {
       value: '',
@@ -34,7 +42,7 @@
         { label: '女', value: '女' },
       ],
       props: {},
-      rules: [{ required: true, message: '请选择性别' }],
+      rules: [{ required: false, message: '请选择性别' }],
     },
     phone: {
       value: '',
@@ -44,7 +52,7 @@
         maxlength: 8,
         placeholder: '请输入',
       },
-      rules: [{ required: true, message: '请输入手电话号码' }],
+      rules: [{ required: false, message: '请输入电话号码' }],
     },
     mobile: {
       value: '',
@@ -54,7 +62,7 @@
         maxlength: 11,
         placeholder: '请输入',
       },
-      rules: [{ required: true, message: '请输入手机号' }],
+      rules: [{ required: false, message: '请输入手机号' }],
     },
     address: {
       value: '',
@@ -64,7 +72,7 @@
         maxlength: 30,
         placeholder: '请输入',
       },
-      rules: [{ required: true, message: '请输入地址' }],
+      rules: [{ required: false, message: '请输入地址' }],
     },
     noticeMethod: {
       value: [],
@@ -84,7 +92,10 @@
         console.log(res)
         f.value = res
       },
-      rules: [{ required: true, message: '请选择性别' }],
+      get: (s) => {
+        return s.join(',')
+      },
+      rules: [{ required: false, message: '请选择性别' }],
     },
     email: {
       value: '',
@@ -103,16 +114,7 @@
         },
       ],
     },
-    depName: {
-      value: '',
-      label: '部门',
-      is: 'HorField',
-      props: {
-        maxlength: 20,
-        placeholder: '请输入',
-      },
-      rules: [{ required: true, message: '请输入部门' }],
-    },
+    depName,
     jobTitle: {
       value: '',
       label: '职位',
@@ -121,15 +123,26 @@
         maxlength: 20,
         placeholder: '请输入',
       },
-      rules: [{ required: true, message: '请输入职位' }],
+      rules: [{ required: false, message: '请输入职位' }],
     },
   })
 
   banana.assignment(userinfo?.content!, metadata)
 
+  const router = useRouter()
   const handleSubmit = async () => {
     const options = await banana.validate(metadata)
     console.log('options', options)
+    await withLoading(doUserInfoUpdate)(options)
+    await showSuccessToast(`修改成功`)
+    setUserinfo({
+      ...userinfo,
+      content: {
+        ...userinfo?.content,
+        ...options,
+      },
+    } as any)
+    router.back()
   }
 </script>
 

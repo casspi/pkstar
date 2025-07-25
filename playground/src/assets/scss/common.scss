@@ -198,7 +198,7 @@ body {
   @extend %w100;
   @extend %bsb;
   background-color: #fff;
-  padding: j(12) j(16);
+  padding: j(10) j(15);
   margin-top: j(10);
   &.is-nmt {
     @extend %bwb;
@@ -322,6 +322,42 @@ body {
   }
 }
 
+.c-col-item{
+  @extend %df;
+  @extend %aic;
+  @extend %w100;
+  @extend %bsb;
+  background-color: #fff;
+  padding: j(10) j(15);
+  font-size: j(12);
+  .icon{
+    margin-right: j(10);
+    width: j(28);
+    height: j(28);
+  }
+  .c-col-item-content{
+    flex: 1;
+  }
+  .c-col-item-title{
+    // width: 100%;
+    @extend %df;
+    @extend %jcs;
+    @extend %aic;
+    margin-bottom: j(8);
+  }
+  .sub-text{
+    color: #999;
+    font-size: j(11);
+  }
+  .color-999{
+    color: #999;
+  }
+}
+
+.c-text-primary{
+  color: $color-primary;
+}
+
 // 列表渲染动画
 .list-enter-active,
 .list-leave-active {
@@ -361,16 +397,6 @@ body {
   flex-basis: 100%;
 }
 
-// 购药记录格式化展示
-.c-prescribe-item {
-  font-size: j(12);
-  color: $color-primary;
-  border: 1px solid $color-primary;
-  border-radius: j(2);
-  margin-bottom: j(5);
-  padding: j(4);
-}
-
 // 修正页面转场时，底部按钮闪烁问题
 .slide-plus-left-enter-active,
 .slide-plus-left-leave-active,
@@ -385,4 +411,33 @@ body {
 //pro-uploader
 .pro-uploader__input {
   display: none;
+}
+
+// 用户信息
+.c-user-info {
+  padding: j(10) j(15);
+  font-size: j(12);
+  background-color: #fff;
+  @extend %df;
+  @extend %jcs;
+  @extend %aic;
+  .user {
+    @extend %df;
+    @extend %aic;
+  }
+  .name {
+    font-weight: bold;
+    margin-bottom: j(8);
+  }
+  .user-info-content {
+    @extend %df;
+    @extend %fdc;
+  }
+  
+}
+.c-avatar {
+  width: j(40);
+  height: j(40);
+  margin-right: j(10);
+  border-radius: 50%;
 }

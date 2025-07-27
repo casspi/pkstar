@@ -43,12 +43,17 @@
       <!-- <RelationSection :src-id="loginId" src-type="1" /> -->
 
       <ProEndDivider />
-    </template>
 
-    <HorFixedActions>
-      <VanButton class="c-button" type="danger" @click="doApplyRemind">催促</VanButton>
-      <VanButton class="c-button" type="warning" @click="doApplyRemind">撤回</VanButton>
-    </HorFixedActions>
+      <HorFixedActions
+        v-if="
+          computedApplyDetail &&
+          ['init', 'submit', 'withdraw'].includes(computedApplyDetail?.status)
+        "
+      >
+        <VanButton class="c-button" type="danger" @click="doApplyRemind">催促</VanButton>
+        <VanButton class="c-button" type="warning" @click="doApplyRemind">撤回</VanButton>
+      </HorFixedActions>
+    </template>
   </HorView>
 </template>
 

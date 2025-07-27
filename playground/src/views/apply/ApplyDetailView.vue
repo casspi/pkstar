@@ -19,8 +19,12 @@
       <ProSchemaRender :fields="fields" :source="computedApplyDetail" />
 
       <div class="c-bar"></div>
-
-      <VanSteps direction="vertical" :active="99">
+      <VanSteps
+        v-if="data.logs && data.logs.length"
+        direction="vertical"
+        :active="computedIsActive"
+        active-color="#1890FF"
+      >
         <VanStep v-for="(item, index) in data.logs" :key="index">
           <div class="c-col-item">
             <UserAvatar class="c-avatar" :src="item.iconPath" />
@@ -40,16 +44,22 @@
 
       <ProEndDivider />
     </template>
+
+    <HorFixedActions>
+      <VanButton class="c-button" type="danger" @click="doApplyRemind">催促</VanButton>
+      <VanButton class="c-button" type="warning" @click="doApplyRemind">撤回</VanButton>
+    </HorFixedActions>
   </HorView>
 </template>
 
 <script setup lang="ts">
-  import { reqApplyDetail } from '@/api'
+  import { reqApplyDetail, doApplyRemind } from '@/api'
   import { useProSchemaRender } from '@/components'
   import { useAsyncTask, useParams } from '@pkstar/vue-use'
   import { useQuery } from '@pkstar/vue-use'
   import { applyStatusLabelMap } from '@/utils'
   import { formatDate } from '@pkstar/utils'
+  import type { ApplyLeaveDeatil, ApplyOvertimeDeatil } from '@/types'
 
   const { id } = useParams()
   const query = useQuery()
@@ -58,86 +68,81 @@
     immediate: true,
   })
 
-  const fields = useProSchemaRender<any>((data) => {
-    const { startDt, endDt } = data
+  const fields = useProSchemaRender<ApplyLeaveDeatil | ApplyOvertimeDeatil>((s) => {
+    const { startDt, endDt, isAllDay } = s
     return [
       {
         is: 'HorCell',
         label: '用户部门',
         key: 'userdep',
-        crlf: true,
       },
       {
         is: 'HorCell',
         label: '申请时间',
         key: 'createDt',
-        crlf: true,
       },
       {
         is: 'HorCell',
         label: '请假类型',
         key: 'typeName',
-        crlf: true,
       },
       {
         is: 'HorCell',
         label: '开始时间',
-        crlf: true,
         value: formatDate(startDt, 'yyyy-MM-dd'),
       },
       {
         is: 'HorCell',
         label: '结束时间',
-        crlf: true,
         value: formatDate(endDt, 'yyyy-MM-dd'),
       },
       {
         is: 'HorCell',
         label: '请假天数',
         key: 'days',
-        crlf: true,
-        hidden: () => {
-          return data.value?.content?.leave
-        },
+        hidden: () => !!computedIsOvertime.value || isAllDay === 'N',
       },
       {
         is: 'HorCell',
         label: '请假小时',
         key: 'hours',
-        crlf: true,
-        hidden: () => {
-          return data.value?.content?.leave
-        },
+        hidden: () => !!computedIsOvertime.value || isAllDay === 'Y',
       },
       {
         is: 'HorCell',
         label: '加班天数',
         key: 'days',
-        crlf: true,
-        hidden: () => {
-          return data.value?.content?.overtime
-        },
+        hidden: () => !computedIsOvertime.value || isAllDay === 'N',
       },
       {
         is: 'HorCell',
         label: '加班小时',
         key: 'hours',
-        crlf: true,
-        hidden: () => {
-          return data.value?.content?.overtime
-        },
+        hidden: () => !computedIsOvertime.value || isAllDay === 'Y',
       },
       {
         is: 'HorCell',
         label: '请假事由',
         key: 'reason',
-        crlf: true,
       },
     ]
   })
 
   const computedApplyDetail = computed(() => {
     return data?.value?.content?.overtime ?? data.value?.content.leave
+  })
+  const computedIsOvertime = computed(() => {
+    return data?.value?.content?.overtime
+  })
+  const computedIsActive = computed(() => {
+    // 检查 data 和 logs 是否存在
+    if (!data.value || !data.value.logs || data.value.logs.length === 0) {
+      return 0
+    }
+    // 查找 activityDt 为空的元素索引
+    const index = data.value.logs.findIndex((item) => !item.activityDt)
+    // 若找到则返回该索引，否则返回最后一个元素的索引
+    return index !== -1 ? index : data.value.logs.length - 1
   })
 </script>
 

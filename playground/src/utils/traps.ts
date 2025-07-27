@@ -1,4 +1,4 @@
-import type { DepItem } from '@/types'
+import type { DepItem, SysConfigDict } from '@/types'
 import { createTrapInstance } from '@pkstar/utils'
 
 // 通用页面刷新 & 筛选
@@ -15,3 +15,6 @@ export const locationNameTrap = createTrapInstance('trap:notice-list:refresh')
 
 // 选择部门
 export const selectDepTrap = createTrapInstance<DepItem>('trap:select-department:refresh')
+
+// 选择请假类型
+export const selectLeaveTrap = createTrapInstance<SysConfigDict>('trap:select-leave:refresh')

@@ -16,7 +16,8 @@ export interface NoticeItem {
 }
 
 export interface AttendItem {
-  [x: string]: any
+  attendDt: string
+  attendType: string
 }
 
 // 打卡记录
@@ -86,14 +87,14 @@ export interface ApplyDetailVo {
   rtnMsg: string
   logs: ApplyDetailLog[]
   content: {
-    overtime?: OvertimeDeatil
-    leave?: LeaveDeatil
+    overtime?: ApplyOvertimeDeatil
+    leave?: ApplyLeaveDeatil
   }
   rtnCode: string
   approveSign: number
 }
 
-interface OvertimeDeatil {
+export interface ApplyOvertimeDeatil {
   reason: string
   endDt: string
   uuid: string
@@ -114,7 +115,7 @@ interface OvertimeDeatil {
   username: string
   status: string
 }
-interface LeaveDeatil {
+export interface ApplyLeaveDeatil {
   reason: string
   hours: number
   typeName: string
@@ -152,6 +153,17 @@ interface ApplyDetailApproval {
   userId: number
   username: string
   status: string
+}
+
+// 请假类型
+export interface LeaveInfoItem {
+  rest: number
+  dictId: number
+  type: string
+  priority: number
+  shortCode: string
+  parentId: number
+  longName: string
 }
 
 // {

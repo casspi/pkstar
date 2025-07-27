@@ -13,28 +13,51 @@ import { withLoading } from '@/utils'
 import { curl } from './curl'
 import type { ReqVo } from '@/types/common'
 
+// 联系
+export const reqCustomerContact = () =>
+  curl<{ staff: any[]; customer: any[] }>(`/oa/customerContact.json`, {})
+
+// 更新列表
+export const reqUpdateList = () => curl<Array<ApplyItem>>(`/user/updateMessage.json`, {})
+
 // 消息列表
-export const reqMessageList = () => curl<Array<NoticeItem>>(`/user/messages.json`, {})
-//.then(() => ({
-//   messages: [
-//     {
-//       bisSubType: 'leave',
-//       backId: '101-168',
-//       fromUserId: 764,
-//       isRead: 'N',
-//       bisType: 'approve',
-//       title: 'system通过了我的请假申请',
-//       userId: 963,
-//       toUserId: 963,
-//       content: '申请日期:2025-07-10 2025-09-14 00时至2025-09-14 00时 OK',
-//       fromName: 'system',
-//       toUserName: '刘广仓',
-//       approvalId: 20,
-//       fromUserImg: 'https://www.bianxiukaoqing.top/images/up/2507/7642025072422userImage42.jpg',
-//       msgDate: '2025-07-25 10:45:40',
-//     },
-//   ],
-// }))
+export const reqMessageList = () =>
+  curl<Array<NoticeItem>>(`/user/messages.json`, {}).then(() => ({
+    messages: [
+      {
+        bisSubType: 'leave',
+        backId: '101-168',
+        fromUserId: 764,
+        isRead: 'N',
+        bisType: 'approve',
+        title: 'system通过了我的请假申请',
+        userId: 963,
+        toUserId: 963,
+        content: '申请日期:2025-07-10 2025-09-14 00时至2025-09-14 00时 OK',
+        fromName: 'system',
+        toUserName: '刘广仓',
+        approvalId: 20,
+        fromUserImg: 'https://www.bianxiukaoqing.top/images/up/2507/7642025072422userImage42.jpg',
+        msgDate: '2025-07-25 10:45:40',
+      },
+      {
+        bisSubType: 'leave',
+        backId: '111-178',
+        fromUserId: 963,
+        isRead: 'N',
+        bisType: 'approve',
+        title: '刘广仓的审批请求',
+        userId: 764,
+        toUserId: 764,
+        content: '刘广仓的请假申请,等待您的审批,请尽快处理',
+        fromName: '刘广仓',
+        toUserName: 'system',
+        approvalId: 19,
+        fromUserImg: 'https://www.bianxiukaoqing.top/images/up/2507/9632025072516userImage40.jpg',
+        msgDate: '2025-07-27 16:56:03',
+      },
+    ],
+  }))
 
 // 公告列表
 export const reqNoticeList = withLoading(
@@ -50,7 +73,7 @@ export const doAttend = withLoading(
 )
 
 // 打卡初始化
-export const reqAttendInit = withLoading(() => curl<AttendItem>(`/oa/attendList.json`), false)
+export const reqAttendInit = withLoading(() => curl<AttendItem[]>(`/oa/attendList.json`), false)
 
 // 打卡记录
 export const reqAttendRecord = (data: { requestMonth: string }) =>
@@ -83,8 +106,13 @@ export const reqApplyDetail = withLoading((data: { approveId: number }) =>
   curl<ApplyDetailVo>(`oa/applyDetail.json`, data),
 )
 
-// 配准审批
+// 批准审批
 export const doApplyDeal = withLoading(
   (content: { status: string; approveId: number[]; comment: string; approveUserId: number }) =>
     curl(`oa/applyDeal.json`, { content }),
+)
+
+// 催促审批
+export const doApplyRemind = withLoading((content: { approveId: number }) =>
+  curl(`oa/askForApprove.json`, { content }),
 )

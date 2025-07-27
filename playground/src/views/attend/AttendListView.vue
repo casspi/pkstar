@@ -1,37 +1,41 @@
 <template>
   <HorView class="attend-list-view">
-    <div class="c-bar"></div>
-    <div class="c-user-info">
-      <div class="user">
-        <UserAvatar class="c-avatar" :src="userinfo?.content.smallImage" />
-        <span>{{ userinfo?.content.realName }}</span>
-      </div>
-      <MonthSelect v-model="currentMonth" />
-    </div>
-    <div class="c-bar"></div>
-    <ul class="attend-info attend-info-1">
-      <li class="info-item" v-for="(item, index) in attendSumms1" :key="index">
-        <span>{{ item.label }}:</span> {{ data?.summ[item.key] }}次
-      </li>
-    </ul>
-    <ul class="attend-info attend-info-2">
-      <li class="info-item" v-for="(item, index) in attendSumms2" :key="index">
-        <span>{{ item.label }}:</span>{{ data?.summ[item.key] }}小时
-      </li>
-    </ul>
-    <div class="c-bar"></div>
-    <div class="c-bar"></div>
-    <dl class="sign-list">
-      <dt class="sign-list-title">外勤记录</dt>
-      <dd class="sign-list-item" v-for="(item, index) in data?.sign" :key="index">
-        <HorIcon class="icon" name="location-o" size="30" />
-        <!-- <img src="@/assets/img/icon/woke_sign.png" alt="" srcset="" /> -->
-        <div class="sign-list-item-content">
-          <span class="sign-list-item-content-date">{{ item.dt }}</span>
-          <span class="sign-list-item-content-location">{{ item.locationDetail }}</span>
+    <ProSkeleton v-if="!data" :loading="loading" :error="error" @refresh="trigger" />
+    <template v-else>
+      <div class="c-bar"></div>
+      <div class="c-user-info">
+        <div class="user">
+          <UserAvatar class="c-avatar" :src="userinfo?.content.smallImage" />
+          <span>{{ userinfo?.content.realName }}</span>
         </div>
-      </dd>
-    </dl>
+        <MonthSelect v-model="currentMonth" />
+      </div>
+      <div class="c-bar"></div>
+      <ul class="attend-info attend-info-1">
+        <li class="info-item" v-for="(item, index) in attendSumms1" :key="index">
+          <span>{{ item.label }}:</span> {{ data?.summ[item.key] }}次
+        </li>
+      </ul>
+      <ul class="attend-info attend-info-2">
+        <li class="info-item" v-for="(item, index) in attendSumms2" :key="index">
+          <span>{{ item.label }}:</span>{{ data?.summ[item.key] }}小时
+        </li>
+      </ul>
+      <div class="c-bar"></div>
+      <div class="c-bar"></div>
+      <dl class="sign-list">
+        <dt class="sign-list-title">外勤记录</dt>
+        <dd class="sign-list-item" v-for="(item, index) in data?.sign" :key="index">
+          <HorIcon class="icon" name="location-o" size="30" />
+          <!-- <img src="@/assets/img/icon/woke_sign.png" alt="" srcset="" /> -->
+          <div class="sign-list-item-content">
+            <span class="sign-list-item-content-date">{{ item.dt }}</span>
+            <span class="sign-list-item-content-location">{{ item.locationDetail }}</span>
+          </div>
+        </dd>
+      </dl>
+    </template>
+
     <div class="c-ios-seat"></div>
   </HorView>
 </template>

@@ -56,12 +56,12 @@
     {
       title: '请假',
       icon: new URL('@/assets/img/icon/approval_leave.png', import.meta.url).href,
-      path: '/apply/approval',
+      path: '/apply/leave',
     },
     {
       title: '加班',
       icon: new URL('@/assets/img/icon/approval_overtime.png', import.meta.url).href,
-      path: '/apply/approval',
+      path: '/apply/overtime',
     },
   ])
 </script>

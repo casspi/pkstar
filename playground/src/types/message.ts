@@ -32,3 +32,15 @@ export interface MessageItem {
 // 			"fromUserImg": "https://www.bianxiukaoqing.top/images/up/2507/7642025072422userImage42.jpg",
 // 			"msgDate": "2025-07-25 10:45:40"
 // }
+
+export interface MessaegDetailItem {
+  backId: string
+  isRead: string
+  bisType: string
+  title: string
+  userId: number
+  toUserId: number
+  content: string
+  toUserName: string
+  msgDate: string
+}

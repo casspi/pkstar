@@ -15,7 +15,7 @@ body {
   font-size: j(16);
 }
 
-.c-select{
+.c-select {
   border: j(1) solid #1d2129;
   color: #666;
   height: j(30);
@@ -27,7 +27,7 @@ body {
   @extend %df;
   @extend %aic;
   @extend %jcc;
-  span{
+  span {
     margin-right: j(5);
   }
 }
@@ -322,7 +322,7 @@ body {
   }
 }
 
-.c-col-item{
+.c-col-item {
   @extend %df;
   @extend %aic;
   @extend %w100;
@@ -330,31 +330,31 @@ body {
   background-color: #fff;
   padding: j(10) j(15);
   font-size: j(12);
-  .icon{
+  .icon {
     margin-right: j(10);
     width: j(28);
     height: j(28);
   }
-  .c-col-item-content{
+  .c-col-item-content {
     flex: 1;
   }
-  .c-col-item-title{
+  .c-col-item-title {
     // width: 100%;
     @extend %df;
     @extend %jcs;
     @extend %aic;
     margin-bottom: j(8);
   }
-  .sub-text{
+  .sub-text {
     color: #999;
     font-size: j(11);
   }
-  .color-999{
+  .color-999 {
     color: #999;
   }
 }
 
-.c-text-primary{
+.c-text-primary {
   color: $color-primary;
 }
 
@@ -433,7 +433,6 @@ body {
     @extend %df;
     @extend %fdc;
   }
-  
 }
 .c-avatar {
   width: j(40);

@@ -73,4 +73,16 @@ export default defineRoutes([
     component: () => import('@/views/apply/notice/ApplyNoticeView.vue'),
     meta: { title: '抄送我的', requiresAuth: 1 },
   },
+  {
+    path: '/apply/leave',
+    name: 'ApplyLeaveFormView',
+    component: () => import('@/views/apply/ApplyLeaveFormView.vue'),
+    meta: { title: '请假申请', requiresAuth: 1 },
+  },
+  {
+    path: '/apply/overtime',
+    name: 'ApplyOvertimeFormView',
+    component: () => import('@/views/apply/ApplyOvertimeFormView.vue'),
+    meta: { title: '加班申请', requiresAuth: 1 },
+  },
 ])

@@ -5,15 +5,23 @@
     </template>
     <p class="title">{{ nowStr }}</p>
     <div class="attend-card">
-      <div class="card-item"><span>上班时间：</span>8:15</div>
-      <div class="card-item"><span>上班时间：</span>8:15</div>
-      <div class="card-item"><span>上班时间：</span>8:15</div>
-      <div class="card-item"><span>下班时间：</span>8:15</div>
+      <div class="card-item"><span>上班时间：</span>{{ starttime }}</div>
+      <div class="card-item">
+        <span>上班时间：</span
+        >{{
+          computedStartwork?.attendDt ? formatDate(computedStartwork?.attendDt, 'hh:mm') : '--:--'
+        }}
+      </div>
+      <div class="card-item"><span>上班时间：</span>{{ endtime }}</div>
+      <div class="card-item">
+        <span>下班时间：</span
+        >{{ computedEndwork?.attendDt ? formatDate(computedEndwork?.attendDt, 'hh:mm') : '--:--' }}
+      </div>
     </div>
     <div id="bmap-warp"></div>
     <div class="attend-btn" @click="handleAttend">
       <span>{{ time }}</span>
-      上班打卡
+      {{ computedStartwork?.attendDt ? '下班打卡' : '上班打卡' }}
     </div>
     <!-- 打卡弹框 -->
     <SignPopup ref="signPopupRef" />
@@ -21,23 +29,38 @@
 </template>
 
 <script setup lang="ts">
-  import { doAttend, reqFaceCheck } from '@/api'
-  import { useUserinfoStore } from '@/stores'
+  import { doAttend, reqAttendInit, reqFaceCheck } from '@/api'
+  import { useSysConfigStore, useUserinfoStore } from '@/stores'
   import { appendBmap, isApp } from '@/utils'
   import { formatDate, isIOS } from '@pkstar/utils'
   import { showSuccessToast } from 'vant'
   import SignPopup from '@/components/SignPopup.vue'
-  import { useKeepAlive } from '@pkstar/vue-use'
+  import { useAsyncTask, useKeepAlive } from '@pkstar/vue-use'
+
+  useKeepAlive()
 
   const router = useRouter()
   const { userinfo } = useUserinfoStore()
-  useKeepAlive()
+  const { sysConfig } = useSysConfigStore()
+  const starttime = sysConfig?.para.find((item) => item.paraCode === 'oa.work.starttime')?.paraValue
+  const endtime = sysConfig?.para.find((item) => item.paraCode === 'oa.work.endtime')?.paraValue
 
   const now = new Date()
   const nowStr = formatDate(now, 'yyyy年MM月dd日 hh:mm:ss')
   const week = now.getDay()
   const weekStr = ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'][week]
   const time = now.getHours() + ':' + now.getMinutes()
+
+  const { data: attendData, trigger } = useAsyncTask(reqAttendInit, {
+    immediate: true,
+    initialValue: [],
+  })
+  const computedStartwork = computed(() => {
+    return attendData.value.find((item) => item.attendType === 'startwork')
+  })
+  const computedEndwork = computed(() => {
+    return attendData.value.find((item) => item.attendType === 'endwork')
+  })
 
   const signPopupRef = ref<InstanceType<typeof SignPopup>>()
 
@@ -66,7 +89,9 @@
       ...remarkData!,
     })
     showSuccessToast('打卡成功')
+    trigger()
   }
+
   onMounted(async () => {
     await appendBmap()
     const longitude = 116.404
@@ -98,11 +123,12 @@
     @extend %fww;
     font-size: j(13);
 
-    padding: j(10) j(15);
+    padding: j(10) j(15) j(0);
     background-color: #fff;
     .card-item {
       width: 50%;
       line-height: j(20);
+      margin-bottom: j(10);
       span {
         color: #999;
       }

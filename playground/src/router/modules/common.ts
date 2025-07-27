@@ -78,6 +78,12 @@ export default defineRoutes([
     component: () => import('@/views/common/DepLiftView.vue'),
     meta: { title: '请选择部门', requiresAuth: 1 },
   },
+  {
+    path: '/leave/lift',
+    name: 'LeaveLiftView',
+    component: () => import('@/views/common/LeaveLiftView.vue'),
+    meta: { title: '请选择请假类型', requiresAuth: 1 },
+  },
 
   {
     path: '/preview/image',

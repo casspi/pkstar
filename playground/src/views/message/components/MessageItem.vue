@@ -17,9 +17,13 @@
   import type { MessageItem } from '@/types'
   import { bisTypeValueMap } from '@/utils'
 
-  defineProps({
+  const props = defineProps({
     item: {
       type: Object as PropType<MessageItem>,
+    },
+    type: {
+      type: String,
+      default: 'messages',
     },
   })
 </script>

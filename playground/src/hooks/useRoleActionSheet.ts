@@ -10,6 +10,9 @@ export function useRoleActionSheet() {
   const { content, userRoles = [] } = userinfo.value || {}
 
   const handler = async () => {
+    if (userRoles && userRoles?.length <= 1) {
+      return
+    }
     const selected = await instance.value.show({
       actions: userRoles.map((item: UserRole) => ({
         name: item.roleName,

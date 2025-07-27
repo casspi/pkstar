@@ -28,7 +28,14 @@ export const NOTICE_METHOD = [
 // 消息类型
 export const BIS_MSG_TYPE = [
   {
+    label: '系统消息',
+    title: '系统',
+    value: 'system',
+    icon: new URL('@/assets/img/icon/woke_announcement.png', import.meta.url).href,
+  },
+  {
     label: '审批',
+    title: '审批',
     value: 'approve',
     icon: new URL('@/assets/img/icon/woke_approval.png', import.meta.url).href,
   },

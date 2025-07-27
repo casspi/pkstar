@@ -11,20 +11,29 @@
       <div class="c-br"></div>
       {{ data }}
       <template v-for="(group, key) in data" :key="key">
-        <MessageItem :item="item" v-for="item in group" :key="item.approvalId" />
+        <MessageItem
+          @click="handleClick(group)"
+          :item="item"
+          v-for="item in group.slice(-1)"
+          :key="item.approvalId"
+        />
       </template>
     </HorScroll>
   </HorView>
 </template>
 
 <script setup lang="ts">
-  import { useAsyncTask } from '@pkstar/vue-use'
+  import { useAsyncTask, useQuery } from '@pkstar/vue-use'
   import MessageItem from './components/MessageItem.vue'
-  import { reqConfig, reqMessageList } from '@/api'
+  import { reqConfig, reqCustomerContact, reqMessageList, reqVersionVerify } from '@/api'
   import { onBeforeMountOrActivated } from '@/hooks'
   import { useSysConfigStore } from '@/stores'
 
-  const { data, error, loading, trigger } = useAsyncTask(() => reqMessageList(), {})
+  const { data, error, loading, trigger } = useAsyncTask(async () => {
+    const res = await reqMessageList()
+    const contact = await reqCustomerContact()
+    return res
+  }, {})
 
   // 系统配置数据
   const getSysConfig = async () => {
@@ -35,6 +44,7 @@
   onBeforeMountOrActivated(async () => {
     await trigger()
     getSysConfig()
+    reqVersionVerify()
   })
 
   const hasMessage = computed(() =>
@@ -43,4 +53,12 @@
       return pre
     }, 0),
   )
+
+  const router = useRouter()
+  const handleClick = (group: any) => {
+    router.push({
+      path: '/message/detail',
+      query: { dataList: JSON.stringify(group) },
+    })
+  }
 </script>

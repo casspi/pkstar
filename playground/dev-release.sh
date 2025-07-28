@@ -2,8 +2,8 @@
 
 # ---------------------------------------------------------------------------
 # modify these config for the target project
-ServerAddress=root@124.220.64.70
-DeployDirectoryPath=/web/dev/hh-app
+ServerAddress=root@101.34.8.71
+DeployDirectoryPath=/web/dev/bxkq
 # ---------------------------------------------------------------------------
 
 

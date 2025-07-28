@@ -50,8 +50,8 @@
           ['init', 'submit', 'withdraw'].includes(computedApplyDetail?.status)
         "
       >
-        <VanButton class="c-button" type="danger" @click="doApplyRemind">催促</VanButton>
-        <VanButton class="c-button" type="warning" @click="doApplyRemind">撤回</VanButton>
+        <VanButton class="c-button" type="danger" @click="handleRemind">催促</VanButton>
+        <VanButton class="c-button" type="warning" @click="handleWithdraw">撤回</VanButton>
       </HorFixedActions>
     </template>
   </HorView>
@@ -149,6 +149,19 @@
     // 若找到则返回该索引，否则返回最后一个元素的索引
     return index !== -1 ? index : data.value.logs.length - 1
   })
+
+  // 催促
+  const handleRemind = async () => {
+    await doApplyRemind({
+      approveId: +id,
+    })
+  }
+  // 撤回
+  const handleWithdraw = async () => {
+    await doApplyRemind({
+      approveId: +id,
+    })
+  }
 </script>
 
 <style lang="scss" scoped>

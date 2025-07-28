@@ -24,6 +24,7 @@ export const NOTICE_METHOD = [
   { label: '邮件', value: 'email' },
   { label: '短信', value: 'sms' },
 ]
+export const noticeMethodValueMap = ato(NOTICE_METHOD, 'value')
 
 // 消息类型
 export const BIS_MSG_TYPE = [

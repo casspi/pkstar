@@ -113,6 +113,6 @@ export const doApplyDeal = withLoading(
 )
 
 // 催促审批
-export const doApplyRemind = withLoading((content: { approveId: number }) =>
-  curl(`oa/askForApprove.json`, { content }),
+export const doApplyRemind = withLoading((data: { approveId: number }) =>
+  curl(`oa/askForApprove.json`, data),
 )

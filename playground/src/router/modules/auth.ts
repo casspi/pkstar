@@ -1,6 +1,5 @@
 import { defineRoutes } from '@/router/defineRoutes'
 import SigninView from '@/views/auth/SigninView.vue'
-import PasswordResetView from '@/views/auth/PasswordResetView.vue'
 
 export default defineRoutes([
   {
@@ -17,7 +16,7 @@ export default defineRoutes([
   {
     path: '/password-reset',
     name: 'PasswordResetView',
-    component: PasswordResetView,
+    component: () => import('@/views/auth/PasswordResetView.vue'),
     meta: {
       title: '修改密码',
       requiresAuth: 0,

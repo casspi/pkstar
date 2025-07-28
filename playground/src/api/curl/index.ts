@@ -20,7 +20,7 @@ export function curl<T = any>(
     {
       method: 'post',
       // 安卓走 xhr，安卓原生 http 请求有问题
-      adapter: isAndroid ? 'xhr' : 'native',
+      adapter: 'xhr', //isAndroid ? 'xhr' : 'native',
     },
     options,
   ))

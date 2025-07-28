@@ -20,7 +20,6 @@
   import { useProSchemaRender } from '@/components'
   import HeaderSection from './components/HeaderSection.vue'
   import { showConfirmDialog, showToast } from 'vant'
-  import { sleep } from '@pkstar/utils'
   import { useUserinfoStore } from '@/stores'
   import { useRoleActionSheet } from '@/hooks'
 

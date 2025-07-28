@@ -43,7 +43,7 @@
   import { proUploaderProps, omitHorCellPropsInUploader } from './types'
   import { pick, formatDate, isIOS } from '@pkstar/utils'
   import { extKeys } from '@daysnap/horn-ui/src/utils'
-  import { showChooseSourceType, isApp, withLoading } from '@/utils'
+  import { showChooseSourceType, isApp, withLoading, __DEV__ } from '@/utils'
   import { chooseImage, cropImage, waterMark } from '@pkstar/horn-jssdk'
   import { doFileUploadWithSdk, doFileUpload } from '@/api'
   import { ProImg } from '../ProImg'
@@ -65,7 +65,7 @@
       emits('update:modelValue', value)
     }
     // 原生容器app
-    if (isApp && isIOS()) {
+    if (isApp && isIOS() && !__DEV__) {
       const sourceType = await showChooseSourceType(props.sourceType)
       //拍照或相机
       const chooseImageRes = await chooseImage({

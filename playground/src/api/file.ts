@@ -3,12 +3,12 @@ import { curl } from './curl'
 import { uploadFile, fileToBase64 } from '@pkstar/horn-jssdk'
 import { withLoading } from '@/utils'
 import { blobToBase64, formatDate } from '@pkstar/utils'
+import { getRandomNumber } from '@pkstar/utils'
 
-// 下载
-export const doFileDownload = (data: { filePath: string }) => curl(`common/upload/download`, data)
+type FileSourceType = 'attend' | 'userinfo' | string
 
 // 上传
-export const doFileUpload = async (data: { file: File }, source: 'attend' | string) => {
+export const doFileUpload = async (data: { file: File }, source: FileSourceType) => {
   // 文件转blob
   const arrayBuffer = await data.file.arrayBuffer()
   const blob = new Blob([arrayBuffer], { type: data.file.type })
@@ -16,12 +16,17 @@ export const doFileUpload = async (data: { file: File }, source: 'attend' | stri
   console.log(base64Str)
   // 去除base64Str前缀
   const base64StrWithoutPrefix = base64Str.replace(/^data:image\/\w+;base64,/, '')
-  const filename = `${formatDate(Date.now(), 'yyyyMMddhh')}${source}99.jpg`
+  return doFileUploadWithBase64({ base64: base64StrWithoutPrefix }, source)
+}
+
+// base64 上传
+export const doFileUploadWithBase64 = (data: { base64: string }, source: FileSourceType) => {
+  const filename = `${formatDate(Date.now(), 'yyyyMMddhh')}${source}${getRandomNumber(2)}.jpg`
   const content = [
     {
       filename,
-      data: base64StrWithoutPrefix,
       source,
+      ...data,
     },
   ]
   console.log('content', content)
@@ -35,6 +40,7 @@ export const doFileUpload = async (data: { file: File }, source: 'attend' | stri
     return res[0]
   })
 }
+
 // 利用原生容器去上传
 export const doFileUploadWithSdk = withLoading((filePath: string) => {
   return new Promise((resolve, reject) => {

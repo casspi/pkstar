@@ -16,9 +16,14 @@
   import { onBeforeMountOrActivated } from '@/hooks'
   import { applyListTrap } from '@/utils'
   import { omit } from '@pkstar/utils'
-  import { useKeepPosition } from '@pkstar/vue-use'
+  import { useKeepAlive, useKeepPosition } from '@pkstar/vue-use'
   import ApplyMyTabContent from './components/ApplyMyTabContent.vue'
   import { nextTick, ref } from 'vue'
+
+  useKeepAlive()
+  useKeepPosition({
+    getTarget: () => document.querySelector(`.tab-content-${tabs[active.value].type}`)!,
+  })
 
   const active = ref(0)
   const tabs = [
@@ -44,9 +49,6 @@
     },
   ]
 
-  useKeepPosition({
-    getTarget: () => document.querySelector(`.tab-content-${tabs[active.value].type}`)!,
-  })
   // 获取实例
   const tabContentRefs = ref<any[]>([])
   const triggerTabContentRefresh = (data: string | Record<string, any>) => {

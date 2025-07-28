@@ -1,16 +1,15 @@
 <template>
   <HorView title="消息列表" :left-arrow="false">
-    <ProSkeleton
-      v-if="!hasMessage"
-      :loading="loading"
-      :error="error"
-      @refresh="trigger"
-      empty-description="暂无消息"
-    />
-    <HorScroll v-else class="home-scroll" :list-disabled="false" finished @refresh="trigger">
+    <HorScroll class="home-scroll" :list-disabled="false" finished @refresh="handleRefresh">
       <div class="c-br"></div>
-      {{ data }}
-      <template v-for="(group, key) in data" :key="key">
+      <ProSkeleton
+        v-if="!hasMessage"
+        :loading="loading"
+        :error="error"
+        @refresh="handleRefresh"
+        empty-description="暂无消息"
+      />
+      <template v-else v-for="(group, key) in data" :key="key">
         <MessageItem
           @click="handleClick(group)"
           :item="item"
@@ -29,9 +28,15 @@
   import { onBeforeMountOrActivated } from '@/hooks'
   import { useSysConfigStore } from '@/stores'
 
-  const { data, error, loading, trigger } = useAsyncTask(async () => {
+  const {
+    data,
+    error,
+    loading,
+    trigger: handleRefresh,
+  } = useAsyncTask(async (cb: any) => {
     const res = await reqMessageList()
     const contact = await reqCustomerContact()
+    cb && cb()
     return res
   }, {})
 
@@ -42,14 +47,15 @@
     setSysConfig(res)
   }
   onBeforeMountOrActivated(async () => {
-    await trigger()
+    await handleRefresh()
     getSysConfig()
     reqVersionVerify()
   })
 
   const hasMessage = computed(() =>
     Object.keys(data.value || {}).reduce((pre, cur: any) => {
-      pre += data.value![cur].length
+      console.log('hasMessage=>', cur)
+      pre += data.value![cur as 'messages'].length
       return pre
     }, 0),
   )

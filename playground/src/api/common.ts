@@ -1,4 +1,3 @@
-import { doFileUpload } from './file'
 import { curl } from './curl'
 import type { LeaveInfoItem, PagingParams, Userinfo, UserinfoContent } from '@/types'
 import type { DepItem, SysConfig, SysConfigDict } from '@/types/common'

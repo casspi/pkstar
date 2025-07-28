@@ -21,22 +21,22 @@ export function useLeaveTypeField(options: boolean | Partial<ProSchemaFormField>
       placeholder: '请选择请假类型',
       alignItemCenter: true,
       style: 'text-align: center',
-      formatter: (value: SysConfigDict) => {
-        console.log('formatter', value)
-        return value?.longName
-      },
+      // formatter: (value: SysConfigDict) => {
+      //   console.log('formatter', value)
+      //   return value?.longName
+      // },
       ...props,
     },
 
-    get: (f: any) => {
-      return f.value?.type ?? ''
-    },
+    // get: (f: any) => {
+    //   return f.value?.type ?? ''
+    // },
     ...rest,
   })
 
   onBeforeMountOrActivated(() => {
     selectLeaveTrap.create((data) => {
-      filed.value = data
+      filed.value = data.longName
     })
   })
 

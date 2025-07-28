@@ -20,11 +20,6 @@
   import ApplyMyTabContent from './components/ApplyMyTabContent.vue'
   import { nextTick, ref } from 'vue'
 
-  useKeepAlive()
-  useKeepPosition({
-    getTarget: () => document.querySelector(`.tab-content-${tabs[active.value].type}`)!,
-  })
-
   const active = ref(0)
   const tabs = [
     {
@@ -48,6 +43,11 @@
       type: 'withdraw',
     },
   ]
+
+  useKeepAlive()
+  useKeepPosition({
+    getTarget: () => document.querySelector(`.tab-content-${tabs[active.value].type}`)!,
+  })
 
   // 获取实例
   const tabContentRefs = ref<any[]>([])

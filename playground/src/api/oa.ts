@@ -116,3 +116,8 @@ export const doApplyDeal = withLoading(
 export const doApplyRemind = withLoading((data: { approveId: number }) =>
   curl(`oa/askForApprove.json`, data),
 )
+
+// 撤回审批
+export const doApplyWithdraw = withLoading((data: { approveId: number }) =>
+  curl(`oa/applyWithdraw.json`, data),
+)

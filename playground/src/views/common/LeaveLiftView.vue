@@ -23,9 +23,16 @@
 
   const { sysConfig } = useSysConfigStore()
 
-  const { data, error, loading, trigger } = useAsyncTask(() => reqLeaveInfo(), {
-    immediate: true,
-  })
+  const { data, error, loading, trigger } = useAsyncTask(
+    async (cb: any) => {
+      const res = await reqLeaveInfo()
+      cb && cb()
+      return res
+    },
+    {
+      immediate: true,
+    },
+  )
 
   const router = useRouter()
   const handleSelect = (item: LeaveInfoItem) => {

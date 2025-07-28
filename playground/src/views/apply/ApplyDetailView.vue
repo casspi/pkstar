@@ -1,6 +1,6 @@
 <template>
   <HorView :title="query.title ?? '详情'">
-    <ProSkeleton v-if="!data" :loading="loading" :error="error" @refresh="trigger" />
+    <ProSkeleton v-if="!data" :loading="loading" :error="error" @refresh="handleRefresh" />
     <template v-else>
       <div class="c-user-info">
         <div class="user">
@@ -50,26 +50,52 @@
           ['init', 'submit', 'withdraw'].includes(computedApplyDetail?.status)
         "
       >
-        <VanButton class="c-button" type="danger" @click="handleRemind">催促</VanButton>
-        <VanButton class="c-button" type="warning" @click="handleWithdraw">撤回</VanButton>
+        <VanButton
+          v-if="['withdraw'].includes(computedApplyDetail.submitStatus)"
+          class="c-button"
+          type="primary"
+          @click="handleEdit"
+          >编辑</VanButton
+        >
+
+        <VanButton
+          v-if="['submit'].includes(computedApplyDetail.submitStatus)"
+          class="c-button"
+          type="danger"
+          @click="handleRemind"
+          >催促</VanButton
+        >
+        <VanButton
+          v-if="['submit'].includes(computedApplyDetail.submitStatus)"
+          class="c-button"
+          type="warning"
+          @click="handleWithdraw"
+          >撤回</VanButton
+        >
       </HorFixedActions>
     </template>
   </HorView>
 </template>
 
 <script setup lang="ts">
-  import { reqApplyDetail, doApplyRemind } from '@/api'
+  import { reqApplyDetail, doApplyRemind, doApplyWithdraw } from '@/api'
   import { useProSchemaRender } from '@/components'
   import { useAsyncTask, useParams } from '@pkstar/vue-use'
   import { useQuery } from '@pkstar/vue-use'
   import { applyStatusLabelMap } from '@/utils'
   import { formatDate } from '@pkstar/utils'
   import type { ApplyLeaveDeatil, ApplyOvertimeDeatil } from '@/types'
+  import { showSuccessToast } from 'vant'
 
   const { id } = useParams()
   const query = useQuery()
 
-  const { data, error, loading, trigger } = useAsyncTask(() => reqApplyDetail({ approveId: +id }), {
+  const {
+    data,
+    error,
+    loading,
+    trigger: handleRefresh,
+  } = useAsyncTask(() => reqApplyDetail({ approveId: +id }), {
     immediate: true,
   })
 
@@ -150,16 +176,30 @@
     return index !== -1 ? index : data.value.logs.length - 1
   })
 
+  const router = useRouter()
   // 催促
   const handleRemind = async () => {
     await doApplyRemind({
       approveId: +id,
     })
+    showSuccessToast('催促成功')
+    router.go(-1)
   }
   // 撤回
   const handleWithdraw = async () => {
-    await doApplyRemind({
+    await doApplyWithdraw({
       approveId: +id,
+    })
+    showSuccessToast('已撤回')
+    handleRefresh()
+  }
+  // 编辑
+  const handleEdit = () => {
+    router.push({
+      path: '/apply/leave',
+      query: {
+        detail: JSON.stringify(computedApplyDetail.value),
+      },
     })
   }
 </script>

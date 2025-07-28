@@ -31,3 +31,9 @@
 .van-step__title {
     color: #333;
 }
+
+.van-tab__panel {
+  display: flex;
+  flex-direction: column;
+  background-color: #f2f3f4;
+}

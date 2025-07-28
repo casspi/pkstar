@@ -1,6 +1,8 @@
 <template>
   <div class="c-col-item van-hairline--bottom">
-    <img class="icon" :src="bisTypeValueMap[item?.bisType!]?.icon" alt="" srcset="" />
+    <VanBadge class="icon" :content="count" :max="99">
+      <img :src="bisTypeValueMap[item?.bisType!]?.icon" alt="" srcset="" />
+    </VanBadge>
     <div class="c-col-item-content">
       <div class="c-col-item-title">
         <span class="title">{{ bisTypeValueMap[item?.bisType!]?.label }}</span>
@@ -24,6 +26,10 @@
     type: {
       type: String,
       default: 'messages',
+    },
+    count: {
+      type: Number,
+      default: 0,
     },
   })
 </script>

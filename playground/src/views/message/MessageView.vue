@@ -11,10 +11,11 @@
       />
       <template v-else v-for="(group, key) in data" :key="key">
         <MessageItem
-          @click="handleClick(group)"
-          :item="item"
           v-for="item in group.slice(-1)"
           :key="item.approvalId"
+          :item="item"
+          :count="group.length"
+          @click="handleClick(group)"
         />
       </template>
     </HorScroll>
@@ -47,7 +48,7 @@
     setSysConfig(res)
   }
   onBeforeMountOrActivated(async () => {
-    await handleRefresh()
+    await handleRefresh(false)
     getSysConfig()
     reqVersionVerify()
   })

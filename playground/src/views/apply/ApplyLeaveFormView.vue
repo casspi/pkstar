@@ -25,14 +25,15 @@
   import type { HorDatePickerInstance, HorDateTimePickerInstance } from '@daysnap/horn-ui'
   import banana from '@pkstar/banana'
   import { formatDate } from '@pkstar/utils/src/formatDate.js'
-  import { useQuery } from '@pkstar/vue-use'
+  import { useKeepAlive, useQuery } from '@pkstar/vue-use'
 
+  useKeepAlive()
   const { detail } = useQuery()
   const datePickerInstance = ref() as Ref<HorDatePickerInstance>
   const dateTimePickerInstance = ref() as Ref<HorDateTimePickerInstance>
 
   const fields = useProSchemaForm({
-    typeName: useLeaveTypeField({}),
+    typeName: useLeaveTypeField(true),
     isAllDay: {
       value: 'Y',
       label: '是否整天',
@@ -63,7 +64,14 @@
           }))
         }
 
-        fields.endDt.value = ''
+        // 开始时间大于结束时间
+        if (
+          fields.endDt.value &&
+          new Date(fields.endDt.value).getTime() < new Date(item.value).getTime()
+        ) {
+          fields.endDt.value = ''
+          throw '开始时间不能大于结束时间'
+        }
       },
       rules: [{ required: true, message: '请选择开始时间' }],
     },
@@ -133,14 +141,14 @@
     },
   })
 
-  watch(
-    () => fields.startDt.value,
-    (val) => {
-      if (!val) {
-        fields.endDt.value = ''
-      }
-    },
-  )
+  // watch(
+  //   () => fields.startDt.value,
+  //   (val) => {
+  //     if (!val) {
+  //       fields.endDt.value = ''
+  //     }
+  //   },
+  // )
   watch(
     () => fields.isAllDay.value,
     (val) => {

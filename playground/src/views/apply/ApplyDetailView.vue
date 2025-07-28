@@ -50,28 +50,36 @@
           ['init', 'submit', 'withdraw'].includes(computedApplyDetail?.status)
         "
       >
-        <VanButton
-          v-if="['withdraw'].includes(computedApplyDetail.submitStatus)"
-          class="c-button"
-          type="primary"
-          @click="handleEdit"
-          >编辑</VanButton
-        >
+        <!-- 我发起的 -->
+        <template v-if="computedApplyDetail.applyUserId === userinfo?.content.userId">
+          <template
+            v-if="
+              computedApplyDetail.myStatus === '' &&
+              ['submit'].includes(computedApplyDetail.submitStatus)
+            "
+          >
+            <VanButton class="c-button" type="danger" @click="handleRemind">催促</VanButton>
+            <VanButton class="c-button" type="warning" @click="handleWithdraw">撤回</VanButton>
+          </template>
+          <VanButton
+            v-if="['withdraw'].includes(computedApplyDetail.submitStatus)"
+            class="c-button"
+            type="primary"
+            @click="handleEdit"
+            >编辑</VanButton
+          >
+        </template>
 
-        <VanButton
-          v-if="['submit'].includes(computedApplyDetail.submitStatus)"
-          class="c-button"
-          type="danger"
-          @click="handleRemind"
-          >催促</VanButton
+        <!-- 待我审批的 -->
+        <template
+          v-if="
+            computedApplyDetail.myStatus === 'init' &&
+            ['submit'].includes(computedApplyDetail.submitStatus)
+          "
         >
-        <VanButton
-          v-if="['submit'].includes(computedApplyDetail.submitStatus)"
-          class="c-button"
-          type="warning"
-          @click="handleWithdraw"
-          >撤回</VanButton
-        >
+          <VanButton class="c-button" type="danger" @click="handleRemind">拒绝</VanButton>
+          <VanButton class="c-button" type="success" @click="handleWithdraw">同意</VanButton>
+        </template>
       </HorFixedActions>
     </template>
   </HorView>
@@ -86,10 +94,11 @@
   import { formatDate } from '@pkstar/utils'
   import type { ApplyLeaveDeatil, ApplyOvertimeDeatil } from '@/types'
   import { showSuccessToast } from 'vant'
+  import { useUserinfoStore } from '@/stores'
 
   const { id } = useParams()
   const query = useQuery()
-
+  const { userinfo } = useUserinfoStore()
   const {
     data,
     error,

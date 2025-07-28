@@ -18,7 +18,8 @@ export const reqCustomerContact = () =>
   curl<{ staff: any[]; customer: any[] }>(`/oa/customerContact.json`, {})
 
 // 更新列表
-export const reqUpdateList = () => curl<Array<ApplyItem>>(`/user/updateMessage.json`, {})
+export const reqUpdateList = (data: { bisType: string }) =>
+  curl<Array<ApplyItem>>(`/user/updateMessage.json`, data)
 
 // 消息列表
 export const reqMessageList = () =>
@@ -55,6 +56,70 @@ export const reqMessageList = () =>
         approvalId: 19,
         fromUserImg: 'https://www.bianxiukaoqing.top/images/up/2507/9632025072516userImage40.jpg',
         msgDate: '2025-07-27 16:56:03',
+      },
+      {
+        bisSubType: 'leave',
+        backId: '124-192',
+        fromUserId: 963,
+        isRead: 'N',
+        bisType: 'approve',
+        title: '刘广仓的审批请求',
+        userId: 764,
+        toUserId: 764,
+        content: '刘广仓的请假申请,等待您的审批,请尽快处理',
+        fromName: '刘广仓',
+        toUserName: 'system',
+        approvalId: 18,
+        fromUserImg: 'https://www.bianxiukaoqing.top/images/up/2507/9632025072816userImage81.jpg',
+        msgDate: '2025-07-28 15:08:25',
+      },
+      {
+        bisSubType: 'leave',
+        backId: '122-190',
+        fromUserId: 963,
+        isRead: 'N',
+        bisType: 'approve',
+        title: '刘广仓的审批请求',
+        userId: 764,
+        toUserId: 764,
+        content: '刘广仓的请假申请,等待您的审批,请尽快处理',
+        fromName: '刘广仓',
+        toUserName: 'system',
+        approvalId: 18,
+        fromUserImg: 'https://www.bianxiukaoqing.top/images/up/2507/9632025072816userImage81.jpg',
+        msgDate: '2025-07-28 14:26:17',
+      },
+      {
+        bisSubType: 'leave',
+        backId: '121-189',
+        fromUserId: 963,
+        isRead: 'N',
+        bisType: 'approve',
+        title: '刘广仓的审批请求',
+        userId: 764,
+        toUserId: 764,
+        content: '刘广仓的请假申请,等待您的审批,请尽快处理',
+        fromName: '刘广仓',
+        toUserName: 'system',
+        approvalId: 18,
+        fromUserImg: 'https://www.bianxiukaoqing.top/images/up/2507/9632025072816userImage81.jpg',
+        msgDate: '2025-07-28 14:25:19',
+      },
+      {
+        bisSubType: 'leave',
+        backId: '120-188',
+        fromUserId: 963,
+        isRead: 'N',
+        bisType: 'approve',
+        title: '刘广仓的审批请求',
+        userId: 764,
+        toUserId: 764,
+        content: '刘广仓的请假申请,等待您的审批,请尽快处理',
+        fromName: '刘广仓',
+        toUserName: 'system',
+        approvalId: 18,
+        fromUserImg: 'https://www.bianxiukaoqing.top/images/up/2507/9632025072816userImage81.jpg',
+        msgDate: '2025-07-28 14:25:15',
       },
     ],
   }))

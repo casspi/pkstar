@@ -1,5 +1,5 @@
 <template>
-  <ProImg :def-src="defSrc" :src="src" alt="avatar" />
+  <ProImg class="avatar" loading="lazy" :def-src="defSrc" :src="src" alt="avatar" />
 </template>
 
 <script setup lang="ts">
@@ -12,3 +12,10 @@
     },
   })
 </script>
+<style scoped lang="scss">
+  .avatar {
+    object-position: center;
+    object-fit: cover;
+    background-color: #fff;
+  }
+</style>

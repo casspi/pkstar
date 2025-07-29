@@ -22,7 +22,6 @@
         </li>
       </ul>
       <div class="c-bar"></div>
-      <div class="c-bar"></div>
       <dl class="sign-list">
         <dt class="sign-list-title">外勤记录</dt>
         <dd class="sign-list-item" v-for="(item, index) in data?.sign" :key="index">
@@ -35,7 +34,7 @@
         </dd>
       </dl>
     </template>
-
+    <ProEndDivider />
     <div class="c-ios-seat"></div>
   </HorView>
 </template>

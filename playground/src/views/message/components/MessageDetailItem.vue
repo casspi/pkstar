@@ -1,6 +1,6 @@
 <template>
   <div class="message-detail-item">
-    <img
+    <ProImg
       class="icon"
       :src="item?.fromUserImg || bisTypeValueMap['system']?.icon"
       alt=""

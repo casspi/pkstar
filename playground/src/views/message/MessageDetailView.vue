@@ -1,6 +1,8 @@
 <template>
   <HorView class="" :title="bisTypeValueMap[d.bisType].title">
     <MessageDetailItem v-for="(item, index) in sourceData" :key="index" :item="item" />
+
+    <ProEndDivider />
   </HorView>
 </template>
 

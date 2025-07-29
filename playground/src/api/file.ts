@@ -16,11 +16,11 @@ export const doFileUpload = async (data: { file: File }, source: FileSourceType)
   console.log(base64Str)
   // 去除base64Str前缀
   const base64StrWithoutPrefix = base64Str.replace(/^data:image\/\w+;base64,/, '')
-  return doFileUploadWithBase64({ base64: base64StrWithoutPrefix }, source)
+  return doFileUploadWithBase64({ data: base64StrWithoutPrefix }, source)
 }
 
 // base64 上传
-export const doFileUploadWithBase64 = (data: { base64: string }, source: FileSourceType) => {
+export const doFileUploadWithBase64 = (data: { data: string }, source: FileSourceType) => {
   const filename = `${formatDate(Date.now(), 'yyyyMMddhh')}${source}${getRandomNumber(2)}.jpg`
   const content = [
     {
@@ -30,7 +30,7 @@ export const doFileUploadWithBase64 = (data: { base64: string }, source: FileSou
     },
   ]
   console.log('content', content)
-  return curl(
+  return curl<{ id: number; url: string }[]>(
     `/user/upload.json`,
     {
       content,

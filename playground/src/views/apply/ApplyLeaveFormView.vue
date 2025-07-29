@@ -133,10 +133,11 @@
     file: {
       value: [],
       label: '上传附件',
-      is: 'HorUploader',
+      is: 'ProUploader',
       props: {
         maxCount: 9,
         direction: 'column',
+        source: 'leave',
       },
     },
   })

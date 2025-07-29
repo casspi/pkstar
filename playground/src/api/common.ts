@@ -15,7 +15,7 @@ export const doUserRoleReset = (data: { roleId: number }) =>
   curl<Userinfo>(`/user/switchRole.json`, data, { method: 'POST' })
 
 // 修改个人信息
-export const doUserInfoUpdate = (data: Partial<UserinfoContent>) =>
+export const doUserInfoUpdate = (data: Partial<UserinfoContent> | { fileIds: number }) =>
   curl<Userinfo>(`/user/updateinfo.json`, { content: data }, { method: 'POST' })
 
 // 获取部门列表

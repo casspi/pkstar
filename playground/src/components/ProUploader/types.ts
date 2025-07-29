@@ -69,7 +69,7 @@ export const omitHorCellPropsInUploader = {
   },
   // 业务来源
   source: {
-    type: String,
+    type: String as PropType<'leave' | 'timeover' | 'attend'>,
     default: '',
   },
 }

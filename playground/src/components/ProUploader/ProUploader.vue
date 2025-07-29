@@ -8,6 +8,7 @@
       <ul class="img-warp">
         <template v-if="modelValue.length">
           <li v-for="(item, index) in modelValue" :key="index">
+            {{ item }}
             <ProImg
               :src="item.url"
               :preview="props.modelValue.map((item) => item.url)"
@@ -44,8 +45,8 @@
   import { pick, formatDate, isIOS } from '@pkstar/utils'
   import { extKeys } from '@daysnap/horn-ui/src/utils'
   import { showChooseSourceType, isApp, withLoading, __DEV__ } from '@/utils'
-  import { chooseImage, cropImage, waterMark } from '@pkstar/horn-jssdk'
-  import { doFileUploadWithSdk, doFileUpload } from '@/api'
+  import { chooseImage, cropImage, fileToBase64, waterMark } from '@pkstar/horn-jssdk'
+  import { doFileUploadWithSdk, doFileUpload, doFileUploadWithBase64 } from '@/api'
   import { ProImg } from '../ProImg'
 
   const props = defineProps(proUploaderProps)
@@ -58,14 +59,16 @@
       props?.beforeUpload()
       emits('beforeUpload')
     }
-    let res: string[] = []
+    let res: Array<string> = []
     // 修改数据
     const callback = (res: any) => {
       const value = [...props.modelValue, ...res]
       emits('update:modelValue', value)
     }
+    console.log(window.navigator.userAgent, window.navigator.userAgent.includes('HornApp'))
     // 原生容器app
-    if (isApp && isIOS() && !__DEV__) {
+    if (isApp && isIOS()) {
+      //&& !__DEV__
       const sourceType = await showChooseSourceType(props.sourceType)
       //拍照或相机
       const chooseImageRes = await chooseImage({
@@ -98,8 +101,11 @@
         emits('upload', res, callback)
       } else {
         // 默认上传
-        res = await customUpload(res)
-        callback(res)
+        const data = await doFileToBase64(res)
+        const upRes = await data.map((item) =>
+          doFileUploadWithBase64({ data: item.base64 }, props.source),
+        )
+        callback(upRes)
       }
     } else {
       const input = document.createElement('input')
@@ -115,9 +121,9 @@
         const target = e.target as HTMLInputElement
         let files = [...(target.files ?? [])]
         files = files.slice(0, max)
-        res = await inputUpload(files)
+        const upRes = await inputUpload(files)
         document.body.removeChild(input)
-        callback(res)
+        callback(upRes)
       }
       input.click()
     }
@@ -140,6 +146,10 @@
       ),
     true,
   )
+
+  // 批量文件转base64
+  const doFileToBase64 = (list: string[]) =>
+    Promise.all(list.map((filePath) => fileToBase64({ filePath })))
 
   // 批量加水印
   const doWaterMark = (list: string[]) => {

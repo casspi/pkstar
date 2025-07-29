@@ -8,7 +8,7 @@
     @confirm="confirm"
   >
     <!-- 表单 -->
-    <ProSchemaForm :metadata="fields" />
+    <ProSchemaForm :metadata="formFileds" />
     <!-- <HorCellPicker  label="请假审批人" @click="handleReceive"></HorCellPicker> -->
   </VanDialog>
 
@@ -26,6 +26,8 @@
   const [horActionSheetInstance, handle] = useReceiveActionSheet()
 
   const reciveRoleList = ref<ApplyLeaveVoItem[]>()
+  const formFileds = ref({})
+
   const { visible, show, hide, confirm } = useVisible<Partial<ApplyLeaveDto>>({
     showCallback: async (options) => {
       const { days, hours = 0 } = options!
@@ -36,44 +38,80 @@
         type: 'leave',
       })
       reciveRoleList.value = res
+      // 初始化表单字段
+      if (reciveRoleList.value) {
+        const form = reciveRoleList.value?.reduce((pre, cur, index) => {
+          const { approvalType, roleId, roleName } = cur
+          cur.userList = cur.userList.map((item) => ({
+            ...item,
+            approvalType,
+            roleId,
+            roleName,
+          }))
+          pre[index] = {
+            value: cur.userList[0] ?? '',
+            label: cur.roleName,
+            is: 'HorCellPicker',
+            fn: async (item: any) => {
+              const res = await handle(cur.userList)
+              console.log(res)
+              console.log('item=>', item)
+              item.value = res
+            },
+            props: {
+              formatter: (v: any) => {
+                console.log('v', v)
+                return v.username
+              },
+            },
+            rules: [{ required: true, message: '请选择请假审批人' }],
+          }
+          // console.log('pre', pre)
+          return pre
+        }, {} as any)
+        // console.log('form', form)
+        formFileds.value = useProSchemaForm(form)
+      }
       // console.log('res', res)
     },
     confirmCallback() {
-      return banana.validate(fields.value)
+      console.log('formFileds.value', formFileds.value)
+      return banana.validate(formFileds.value)
     },
   })
-  const fields = computed(() => {
-    const form = reciveRoleList.value?.reduce((pre, cur, index) => {
-      const { approvalType, roleId, roleName } = cur
-      cur.userList = cur.userList.map((item) => ({
-        ...item,
-        approvalType,
-        roleId,
-        roleName,
-      }))
-      pre[index] = {
-        value: cur.userList[0] ?? '',
-        label: cur.roleName,
-        is: 'HorCellPicker',
-        fn: async (item: any) => {
-          const res = await handle(cur.userList)
-          console.log(res)
-          console.log('item=>', item)
-          item.value = res
-        },
-        props: {
-          formatter: (v: any) => {
-            return v.username
-          },
-        },
-        rules: [{ required: true, message: '请选择请假审批人' }],
-      }
-      // console.log('pre', pre)
-      return pre
-    }, {} as any)
-    // console.log('form', form)
-    return useProSchemaForm(form)
-  })
+  // const fields = computed(() => {
+  // const form = reciveRoleList.value?.reduce((pre, cur, index) => {
+  //   const { approvalType, roleId, roleName } = cur
+  //   cur.userList = cur.userList.map((item) => ({
+  //     ...item,
+  //     approvalType,
+  //     roleId,
+  //     roleName,
+  //   }))
+  //   pre[index] = {
+  //     value: cur.userList[0] ?? '',
+  //     label: cur.roleName,
+  //     is: 'HorCellPicker',
+  //     fn: async (item: any) => {
+  //       const res = await handle(cur.userList)
+  //       console.log(res)
+  //       console.log('item=>', item)
+  //       item.value = res
+  //     },
+  //     props: {
+  //       formatter: (v: any) => {
+  //         console.log('v', v)
+  //         return v.username
+  //       },
+  //     },
+  //     rules: [{ required: true, message: '请选择请假审批人' }],
+  //   }
+  //   // console.log('pre', pre)
+  //   return pre
+  // }, {} as any)
+  // // console.log('form', form)
+  // return useProSchemaForm(form)
+  // })
 
   defineExpose({
     show,

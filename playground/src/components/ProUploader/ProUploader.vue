@@ -8,8 +8,8 @@
       <ul class="img-warp">
         <template v-if="modelValue.length">
           <li v-for="(item, index) in modelValue" :key="index">
-            {{ item }}
             <ProImg
+              class="upload-img"
               :src="item.url"
               :preview="props.modelValue.map((item) => item.url)"
               :preview-index="index"
@@ -102,9 +102,10 @@
       } else {
         // 默认上传
         const data = await doFileToBase64(res)
-        const upRes = await data.map((item) =>
-          doFileUploadWithBase64({ data: item.base64 }, props.source),
+        const upRes = await Promise.all(
+          data.map((item) => doFileUploadWithBase64({ data: item.base64 }, props.source)),
         )
+        console.log(upRes)
         callback(upRes)
       }
     } else {
@@ -192,7 +193,7 @@
       }
 
       img {
-        @extend %obc;
+        @extend %ofc;
         @extend %db;
         width: 100%;
         height: 100%;

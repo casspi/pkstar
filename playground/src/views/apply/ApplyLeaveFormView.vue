@@ -37,7 +37,10 @@
   useKeepAlive()
 
   const { userinfo } = useUserinfoStore()
-  const { detail } = useQuery()
+  const { detail = '' } = useQuery()
+  const detailObj = JSON.parse(detail)
+  console.log(detailObj)
+
   const datePickerInstance = ref() as Ref<HorDatePickerInstance>
   const dateTimePickerInstance = ref() as Ref<HorDateTimePickerInstance>
   const receiverDialogInstance = ref() as Ref<InstanceType<typeof ReceiverDialog>>
@@ -228,6 +231,7 @@
       ...options,
       ...receiverObj,
       userId: userinfo?.content.userId,
+      approvalId: detailObj.approvalId,
     })
     showSuccessToast('申请成功')
     router.go(-1)

@@ -1,5 +1,11 @@
 <template>
-  <img :src="computedUrl" :alt="alt" @error="handleError" @click.stop="handlePreview" />
+  <img
+    :loading="loading"
+    :src="computedUrl"
+    :alt="alt"
+    @error="handleError"
+    @click.stop="handlePreview"
+  />
 </template>
 
 <script setup lang="ts">
@@ -12,6 +18,10 @@
     src: {
       type: String,
       default: '',
+    },
+    loading: {
+      type: String as PropType<'eager' | 'lazy' | undefined>,
+      default: 'auto',
     },
     alt: {
       type: String,

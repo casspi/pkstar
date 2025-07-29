@@ -26,6 +26,7 @@
   import { HorCell, HorCellGroup } from '@daysnap/horn-ui'
   import { omit } from '@pkstar/utils'
   import { useTransfer } from '@pkstar/vue-use'
+  import ProUploader from '../ProUploader/ProUploader.vue'
 
   import type { ProSchemaRenderField } from './types'
 
@@ -52,6 +53,7 @@
     components: {
       HorCell,
       HorCellGroup,
+      ProUploader,
     },
   })
 </script>

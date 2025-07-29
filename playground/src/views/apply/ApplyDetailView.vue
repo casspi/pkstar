@@ -95,6 +95,7 @@
   import type { ApplyLeaveDeatil, ApplyOvertimeDeatil } from '@/types'
   import { showSuccessToast } from 'vant'
   import { useUserinfoStore } from '@/stores'
+  import { sleep } from '@pkstar/utils/src/sleep.js'
 
   const { id } = useParams()
   const query = useQuery()
@@ -109,7 +110,10 @@
   })
 
   const fields = useProSchemaRender<ApplyLeaveDeatil | ApplyOvertimeDeatil>((s) => {
-    const { startDt, endDt, isAllDay } = s
+    let { startDt, endDt, isAllDay, pics } = s
+    pics = pics.map((item: string) => ({
+      url: item,
+    }))
     return [
       {
         is: 'HorCell',
@@ -165,6 +169,12 @@
         label: '请假事由',
         key: 'reason',
       },
+      {
+        is: 'ProUploader',
+        label: '',
+        disabled: true,
+        value: pics,
+      },
     ]
   })
 
@@ -197,9 +207,10 @@
   // 撤回
   const handleWithdraw = async () => {
     await doApplyWithdraw({
-      approveId: +id,
+      approvalId: +id,
     })
     showSuccessToast('已撤回')
+    await sleep(1000)
     handleRefresh()
   }
   // 编辑

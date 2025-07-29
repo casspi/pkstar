@@ -21,6 +21,7 @@
         </div>
       </dd>
     </dl>
+    <ProEndDivider />
     <div class="c-ios-seat"></div>
   </HorView>
 </template>

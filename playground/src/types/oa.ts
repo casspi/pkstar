@@ -114,6 +114,7 @@ export interface ApplyOvertimeDeatil {
   iconPath: string
   username: string
   status: string
+  pics: any[]
 }
 export interface ApplyLeaveDeatil {
   reason: string
@@ -275,3 +276,35 @@ export interface LeaveInfoItem {
 // 	"rtnCode": "0",
 // 	"approveSign": 0
 // }
+
+// 审批人
+export interface ApplyLeaveDto {
+  reason: string
+  startDt: string
+  userId: number
+  days: number
+  hours?: number
+  fileIds: string
+  isAllDay: BooleanString
+  receiveRoleId: string
+  receiveId: string
+  endDt: string
+  type: string
+  receiveType: string
+}
+export interface ApplyLeaveVoItem {
+  userList: ApplyLeaveUser[]
+  roleId: number
+  approvalType: string
+  roleName: string
+}
+export interface ApplyLeaveUser {
+  userId: number
+  username: string
+  userdep: string
+  jobtitle?: string
+  iconPath?: string
+  approvalType?: string
+  roleId?: number
+  roleName?: string
+}

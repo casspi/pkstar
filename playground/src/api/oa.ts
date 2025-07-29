@@ -8,6 +8,8 @@ import type {
   AttendDto,
   ApplyItem,
   ApplyDetailVo,
+  ApplyLeaveDto,
+  ApplyLeaveVoItem,
 } from '@/types'
 import { withLoading } from '@/utils'
 import { curl } from './curl'
@@ -146,7 +148,7 @@ export const reqAttendRecord = (data: { requestMonth: string }) =>
 
 // 签到记录
 export const reqSignRecord = (data: { requestMonth: string }) =>
-  curl<SignRecord>(`oa/signSummary.json`, data)
+  curl<SignRecord>(`/oa/signSummary.json`, data)
 
 // 人脸校验
 export const reqFaceCheck = withLoading(
@@ -168,7 +170,7 @@ export const reqApplyList = withLoading(
 
 // 审批详情
 export const reqApplyDetail = withLoading((data: { approveId: number }) =>
-  curl<ApplyDetailVo>(`oa/applyDetail.json`, data),
+  curl<ApplyDetailVo>(`/oa/applyDetail.json`, data),
 )
 
 // 批准审批
@@ -179,10 +181,20 @@ export const doApplyDeal = withLoading(
 
 // 催促审批
 export const doApplyRemind = withLoading((data: { approveId: number }) =>
-  curl(`oa/askForApprove.json`, data),
+  curl(`/oa/askForApprove.json`, data),
 )
 
 // 撤回审批
-export const doApplyWithdraw = withLoading((data: { approveId: number }) =>
-  curl(`oa/applyWithdraw.json`, data),
+export const doApplyWithdraw = withLoading((data: { approvalId: number }) =>
+  curl(`/oa/applyWithdraw.json`, data),
+)
+
+// 获取审批人列表
+export const reqReciveRoleList = withLoading((data: { leaveDays: number; type: 'leave' }) =>
+  curl<ApplyLeaveVoItem[]>(`/oa/approverRoleList.json`, data),
+)
+
+// 请假申请
+export const doApplyLeave = withLoading((content: ApplyLeaveDto) =>
+  curl(`/oa/submitLeave.json`, { content }),
 )

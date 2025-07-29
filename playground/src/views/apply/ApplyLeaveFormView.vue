@@ -3,6 +3,12 @@
     <div class="c-bar"></div>
     <ProSchemaForm :metadata="fields"> </ProSchemaForm>
 
+    <ProEndDivider />
+
+    <HorFixedActions>
+      <VanButton class="c-button" type="primary" @click="handleSubmit">提交</VanButton>
+    </HorFixedActions>
+
     <HorDatePicker ref="datePickerInstance"></HorDatePicker>
 
     <HorDateTimePicker
@@ -11,29 +17,33 @@
       :columns-type="['year', 'month', 'day', 'hour', 'minute']"
     ></HorDateTimePicker>
 
-    <div class="c-br"></div>
-    <HorFixedActions>
-      <VanButton class="c-button" type="primary" @click="handleSubmit">提交</VanButton>
-    </HorFixedActions>
+    <ReceiverDialog ref="receiverDialogInstance" />
   </HorView>
 </template>
 
 <script setup lang="ts">
-  import { reqLeaveInfo } from '@/api'
+  import { doApplyLeave, reqLeaveInfo } from '@/api'
   import { useProSchemaForm } from '@/components'
   import { useLeaveTypeField } from '@/hooks'
   import type { HorDatePickerInstance, HorDateTimePickerInstance } from '@daysnap/horn-ui'
   import banana from '@pkstar/banana'
   import { formatDate } from '@pkstar/utils/src/formatDate.js'
   import { useKeepAlive, useQuery } from '@pkstar/vue-use'
+  import ReceiverDialog from './components/ReciverDialog.vue'
+  import type { ApplyLeaveUser } from '@/types'
+  import { useUserinfoStore } from '@/stores'
+  import { showSuccessToast } from 'vant'
 
   useKeepAlive()
+
+  const { userinfo } = useUserinfoStore()
   const { detail } = useQuery()
   const datePickerInstance = ref() as Ref<HorDatePickerInstance>
   const dateTimePickerInstance = ref() as Ref<HorDateTimePickerInstance>
+  const receiverDialogInstance = ref() as Ref<InstanceType<typeof ReceiverDialog>>
 
   const fields = useProSchemaForm({
-    typeName: useLeaveTypeField(true),
+    type: useLeaveTypeField(true),
     isAllDay: {
       value: 'Y',
       label: '是否整天',
@@ -74,6 +84,9 @@
         }
       },
       rules: [{ required: true, message: '请选择开始时间' }],
+      get(v) {
+        return formatDate(v, 'yyyy-MM-dd hh:mm:ss')
+      },
     },
     endDt: {
       value: '',
@@ -97,6 +110,9 @@
         }
       },
       rules: [{ required: true, message: '请选择结束时间' }],
+      get(v) {
+        return formatDate(v, 'yyyy-MM-dd hh:mm:ss')
+      },
     },
     // leaveDays:
     days: {
@@ -130,13 +146,16 @@
       },
       rules: [{ required: true, message: '请输入请假说明' }],
     },
-    file: {
+    fileIds: {
       value: [],
       label: '上传附件',
       is: 'HorUploader',
       props: {
         maxCount: 9,
         direction: 'column',
+      },
+      get(v) {
+        return v.map((item: any) => item.id).join(',')
       },
     },
   })
@@ -179,20 +198,54 @@
     }
   })
 
+  const router = useRouter()
   const handleSubmit = async () => {
     const options = await banana.validate(fields)
     console.log('options=>', options)
+    // 审批人参数
+    const { days, hours } = options
+    const receiver: Record<string, ApplyLeaveUser> = await receiverDialogInstance.value.show({
+      days,
+      hours,
+    })
+    const receiverMap: Record<string, Array<number | string>> = {
+      receiveId: [],
+      receiveRoleId: [],
+      receiveType: [],
+    }
+    Object.values(receiver).forEach((item) => {
+      receiverMap.receiveId.push(item.userId)
+      item.roleId && receiverMap.receiveRoleId.push(item.roleId)
+      item.approvalType && receiverMap.receiveType.push(item.approvalType)
+    })
+    const receiverObj: any = {}
+    Object.keys(receiverMap).forEach((key) => {
+      receiverObj[key] = receiverMap[key].join(',')
+    })
+    console.log('receiver', receiver, receiverMap, receiverObj)
+    await doApplyLeave({
+      ...options,
+      ...receiverObj,
+      userId: userinfo?.content.userId,
+    })
+    showSuccessToast('申请成功')
+    router.go(-1)
   }
+
   onBeforeMount(async () => {
     const res = await reqLeaveInfo()
     console.log('value=>', res)
     if (detail) {
-      const { endDt, startDt, ...res } = JSON.parse(detail)
+      const { endDt, startDt, typeName, type, ...res } = JSON.parse(detail)
       console.log('onBeforeMount=>', res)
       banana.assignment(
         {
           startDt: formatDate(startDt, 'yyyy/MM/dd'),
           endDt: formatDate(endDt, 'yyyy/MM/dd'),
+          type: {
+            longName: typeName,
+            shortCode: type,
+          },
           ...res,
         },
         fields,

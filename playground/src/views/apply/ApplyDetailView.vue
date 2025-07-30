@@ -15,8 +15,12 @@
       </div>
 
       <div class="c-bar"></div>
-
-      <ProSchemaRender :fields="fields" :source="computedApplyDetail" />
+      <ProSchemaRender
+        v-if="computedIsOvertime"
+        :fields="overtimeFields"
+        :source="computedApplyDetail"
+      />
+      <ProSchemaRender v-else :fields="leaveFields" :source="computedApplyDetail" />
 
       <div class="c-bar"></div>
       <VanSteps
@@ -40,29 +44,45 @@
           </div>
         </VanStep>
       </VanSteps>
-      <!-- <RelationSection :src-id="loginId" src-type="1" /> -->
 
       <ProEndDivider />
 
       <HorFixedActions
         v-if="
           computedApplyDetail &&
-          ['init', 'submit', 'withdraw'].includes(computedApplyDetail?.status)
+          !['notice'].includes(query.applyType) &&
+          ['init', 'submit', 'deny', 'part'].includes(computedApplyDetail?.status)
         "
       >
         <!-- 我发起的 -->
         <template v-if="computedApplyDetail.applyUserId === userinfo?.content.userId">
-          <template
-            v-if="
-              computedApplyDetail.myStatus === '' &&
-              ['submit'].includes(computedApplyDetail.submitStatus)
-            "
-          >
-            <VanButton class="c-button" type="danger" @click="handleRemind">催促</VanButton>
-            <VanButton class="c-button" type="warning" @click="handleWithdraw">撤回</VanButton>
-          </template>
           <VanButton
-            v-if="['withdraw'].includes(computedApplyDetail.submitStatus)"
+            v-if="
+              ['init', 'part'].includes(computedApplyDetail.status) &&
+              !['withdraw'].includes(computedApplyDetail.submitStatus)
+            "
+            class="c-button"
+            type="danger"
+            @click="handleRemind"
+            >催促</VanButton
+          >
+
+          <VanButton
+            v-if="
+              ['init'].includes(computedApplyDetail.status) &&
+              !['withdraw'].includes(computedApplyDetail.submitStatus)
+            "
+            class="c-button"
+            type="warning"
+            @click="handleWithdraw"
+            >撤回</VanButton
+          >
+
+          <VanButton
+            v-if="
+              ['withdraw'].includes(computedApplyDetail.submitStatus) ||
+              ['deny'].includes(computedApplyDetail.status)
+            "
             class="c-button"
             type="primary"
             @click="handleEdit"
@@ -77,29 +97,37 @@
             ['submit'].includes(computedApplyDetail.submitStatus)
           "
         >
-          <VanButton class="c-button" type="danger" @click="handleRemind">拒绝</VanButton>
-          <VanButton class="c-button" type="success" @click="handleWithdraw">同意</VanButton>
+          <VanButton class="c-button" type="danger" @click="handleRefuse">拒绝</VanButton>
+          <VanButton class="c-button" type="success" @click="handleAgree">同意</VanButton>
         </template>
       </HorFixedActions>
     </template>
+    <ResonDialog ref="resonDialogInstance" />
   </HorView>
 </template>
 
 <script setup lang="ts">
-  import { reqApplyDetail, doApplyRemind, doApplyWithdraw } from '@/api'
-  import { useProSchemaRender } from '@/components'
+  import {
+    reqApplyDetail,
+    doApplyRemind,
+    doApplyWithdraw,
+    doApplyRefuse,
+    doApplyAgree,
+  } from '@/api'
   import { useAsyncTask, useParams } from '@pkstar/vue-use'
   import { useQuery } from '@pkstar/vue-use'
-  import { applyStatusLabelMap } from '@/utils'
-  import { formatDate } from '@pkstar/utils'
-  import type { ApplyLeaveDeatil, ApplyOvertimeDeatil } from '@/types'
+  import { applyListTrap, applyStatusLabelMap } from '@/utils'
   import { showSuccessToast } from 'vant'
   import { useUserinfoStore } from '@/stores'
   import { sleep } from '@pkstar/utils/src/sleep.js'
+  import ResonDialog from './components/ResonDialog.vue'
+  import { useApplyDetailHooks } from './useApplyDetailHooks'
 
   const { id } = useParams()
   const query = useQuery()
   const { userinfo } = useUserinfoStore()
+  const resonDialogInstance = ref() as Ref<InstanceType<typeof ResonDialog>>
+
   const {
     data,
     error,
@@ -109,80 +137,13 @@
     immediate: true,
   })
 
-  const fields = useProSchemaRender<ApplyLeaveDeatil | ApplyOvertimeDeatil>((s) => {
-    let { startDt, endDt, isAllDay, pics } = s
-    pics = pics.map((item: string) => ({
-      url: item,
-    }))
-    return [
-      {
-        is: 'HorCell',
-        label: '用户部门',
-        key: 'userdep',
-      },
-      {
-        is: 'HorCell',
-        label: '申请时间',
-        key: 'createDt',
-      },
-      {
-        is: 'HorCell',
-        label: '请假类型',
-        key: 'typeName',
-      },
-      {
-        is: 'HorCell',
-        label: '开始时间',
-        value: formatDate(startDt, 'yyyy-MM-dd'),
-      },
-      {
-        is: 'HorCell',
-        label: '结束时间',
-        value: formatDate(endDt, 'yyyy-MM-dd'),
-      },
-      {
-        is: 'HorCell',
-        label: '请假天数',
-        key: 'days',
-        hidden: () => !!computedIsOvertime.value || isAllDay === 'N',
-      },
-      {
-        is: 'HorCell',
-        label: '请假小时',
-        key: 'hours',
-        hidden: () => !!computedIsOvertime.value || isAllDay === 'Y',
-      },
-      {
-        is: 'HorCell',
-        label: '加班天数',
-        key: 'days',
-        hidden: () => !computedIsOvertime.value || isAllDay === 'N',
-      },
-      {
-        is: 'HorCell',
-        label: '加班小时',
-        key: 'hours',
-        hidden: () => !computedIsOvertime.value || isAllDay === 'Y',
-      },
-      {
-        is: 'HorCell',
-        label: '请假事由',
-        key: 'reason',
-      },
-      {
-        is: 'ProUploader',
-        label: '',
-        disabled: true,
-        value: pics,
-      },
-    ]
-  })
+  const { leaveFields, overtimeFields } = useApplyDetailHooks()
 
   const computedApplyDetail = computed(() => {
     return data?.value?.content?.overtime ?? data.value?.content.leave
   })
   const computedIsOvertime = computed(() => {
-    return data?.value?.content?.overtime
+    return !!data?.value?.content?.overtime
   })
   const computedIsActive = computed(() => {
     // 检查 data 和 logs 是否存在
@@ -212,15 +173,49 @@
     showSuccessToast('已撤回')
     await sleep(1000)
     handleRefresh()
+    applyListTrap.trigger()
   }
   // 编辑
   const handleEdit = () => {
-    router.push({
-      path: '/apply/leave',
+    router.replace({
+      path: computedIsOvertime.value ? '/apply/overtime' : '/apply/leave',
       query: {
         detail: JSON.stringify(computedApplyDetail.value),
       },
     })
+  }
+  // 拒绝
+  const handleRefuse = async () => {
+    const res = await resonDialogInstance.value?.show({
+      title: '拒绝审批',
+    })
+
+    await doApplyRefuse({
+      approveId: [+id],
+      approveUserId: userinfo?.content.userId!,
+      comment: res.comment,
+      status: 'deny',
+    })
+    showSuccessToast('已拒绝')
+    await sleep(1000)
+    applyListTrap.trigger()
+    router.go(-1)
+  }
+  // 同意
+  const handleAgree = async () => {
+    const res = await resonDialogInstance.value?.show({
+      title: '同意审批',
+    })
+    await doApplyAgree({
+      approveId: [+id],
+      approveUserId: userinfo?.content.userId!,
+      comment: res.comment,
+      status: 'pass',
+    })
+    showSuccessToast('已同意')
+    await sleep(1000)
+    applyListTrap.trigger()
+    router.go(-1)
   }
 </script>
 

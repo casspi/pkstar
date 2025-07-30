@@ -23,6 +23,10 @@
     item: {
       type: Object as PropType<ApplyItem>,
     },
+    applyType: {
+      type: String,
+      default: '',
+    },
   })
 
   const router = useRouter()
@@ -32,6 +36,7 @@
       path: `/apply/${props.item?.approveId}`,
       query: {
         title: props.item?.title,
+        applyType: props.applyType,
       },
     })
   }

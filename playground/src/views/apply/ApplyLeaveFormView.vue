@@ -33,12 +33,13 @@
   import type { ApplyLeaveUser } from '@/types'
   import { useUserinfoStore } from '@/stores'
   import { showSuccessToast } from 'vant'
+  import { applyListTrap } from '@/utils'
 
   useKeepAlive()
 
   const { userinfo } = useUserinfoStore()
-  const { detail = '' } = useQuery()
-  const detailObj = JSON.parse(detail)
+  const { detail } = useQuery()
+  const detailObj = detail ? JSON.parse(detail) : ''
   console.log(detailObj)
 
   const datePickerInstance = ref() as Ref<HorDatePickerInstance>
@@ -144,7 +145,7 @@
       is: 'HorTextarea',
       props: {
         class: 'c-m10',
-        maxlength: 100,
+        maxlength: 150,
         placeholder: '请输入',
       },
       rules: [{ required: true, message: '请输入请假说明' }],
@@ -164,14 +165,6 @@
     },
   })
 
-  // watch(
-  //   () => fields.startDt.value,
-  //   (val) => {
-  //     if (!val) {
-  //       fields.endDt.value = ''
-  //     }
-  //   },
-  // )
   watch(
     () => fields.isAllDay.value,
     (val) => {
@@ -211,6 +204,7 @@
     const receiver: Record<string, ApplyLeaveUser> = await receiverDialogInstance.value.show({
       days,
       hours,
+      type: 'leave',
     })
     const receiverMap: Record<string, Array<number | string>> = {
       receiveId: [],
@@ -234,19 +228,21 @@
       approvalId: detailObj.approvalId,
     })
     showSuccessToast('申请成功')
+    applyListTrap.trigger()
     router.go(-1)
   }
 
   onBeforeMount(async () => {
     const res = await reqLeaveInfo()
     console.log('value=>', res)
-    if (detail) {
-      const { endDt, startDt, typeName, type, ...res } = JSON.parse(detail)
+    if (detailObj) {
+      const { endDt, startDt, typeName, type, isAllDay, ...res } = detailObj
       console.log('onBeforeMount=>', res)
+      const dateFormat = isAllDay === 'Y' ? 'yyyy/MM/dd' : 'yyyy/MM/dd hh:mm:ss'
       banana.assignment(
         {
-          startDt: formatDate(startDt, 'yyyy/MM/dd'),
-          endDt: formatDate(endDt, 'yyyy/MM/dd'),
+          startDt: formatDate(startDt, dateFormat),
+          endDt: formatDate(endDt, dateFormat),
           type: {
             longName: typeName,
             shortCode: type,

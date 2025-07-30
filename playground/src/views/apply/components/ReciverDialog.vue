@@ -1,6 +1,6 @@
 <template>
   <VanDialog
-    title="请假审批人"
+    title="审批人"
     v-model:show="visible"
     ref="vanDialogInstance"
     show-cancel-button
@@ -9,7 +9,6 @@
   >
     <!-- 表单 -->
     <ProSchemaForm :metadata="formFileds" />
-    <!-- <HorCellPicker  label="请假审批人" @click="handleReceive"></HorCellPicker> -->
   </VanDialog>
 
   <HorActionSheet ref="horActionSheetInstance" />
@@ -30,12 +29,12 @@
 
   const { visible, show, hide, confirm } = useVisible<Partial<ApplyLeaveDto>>({
     showCallback: async (options) => {
-      const { days, hours = 0 } = options!
+      const { days, hours = 0, type = 'leave' } = options!
       const leaveDays = days || +(hours / 8).toFixed(2)
 
       const res = await reqReciveRoleList({
         leaveDays: Math.max(leaveDays, 8),
-        type: 'leave',
+        type,
       })
       reciveRoleList.value = res
       // 初始化表单字段
@@ -50,7 +49,7 @@
           }))
           pre[index] = {
             value: cur.userList[0] ?? '',
-            label: cur.roleName,
+            label: `${cur.roleName}${approvalType === 'notice' ? '(抄送)' : ''}`,
             is: 'HorCellPicker',
             fn: async (item: any) => {
               const res = await handle(cur.userList)
@@ -64,7 +63,7 @@
                 return v.username
               },
             },
-            rules: [{ required: true, message: '请选择请假审批人' }],
+            rules: [{ required: true, message: '请选择审批人' }],
           }
           // console.log('pre', pre)
           return pre

@@ -17,7 +17,7 @@
       :loading="pagingStatus.pagingLoading"
       @refresh="pagingRefresh"
     />
-    <ApplyCell :item="item" v-for="item in pagingData" :key="item.approveId" />
+    <ApplyCell applyType="done" :item="item" v-for="item in pagingData" :key="item.approveId" />
   </HorScroll>
 </template>
 
@@ -56,6 +56,10 @@
         scrollSelector: `.tab-content-${props.type}`,
       },
     )
+
+  defineExpose({
+    pagingRefresh,
+  })
 </script>
 
 <style lang="scss" scoped>

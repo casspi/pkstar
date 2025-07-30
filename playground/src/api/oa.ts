@@ -10,6 +10,7 @@ import type {
   ApplyDetailVo,
   ApplyLeaveDto,
   ApplyLeaveVoItem,
+  ApplyOvertimeDto,
 } from '@/types'
 import { withLoading } from '@/utils'
 import { curl } from './curl'
@@ -123,6 +124,22 @@ export const reqMessageList = () =>
         fromUserImg: 'https://www.bianxiukaoqing.top/images/up/2507/9632025072816userImage81.jpg',
         msgDate: '2025-07-28 14:25:15',
       },
+      {
+        bisSubType: 'leave',
+        backId: '129-199',
+        fromUserId: 963,
+        isRead: 'N',
+        bisType: 'approve',
+        title: '刘广仓的请假申请(修改)',
+        userId: 1113,
+        toUserId: 1113,
+        content: '2025-08-01 00时至2025-08-02 00时 2',
+        fromName: '刘广仓',
+        toUserName: '测试二',
+        approvalId: 47,
+        fromUserImg: 'https://www.bianxiukaoqing.top/images/up/2507/9632025072921userinfo55.jpg',
+        msgDate: '2025-07-29 17:28:23',
+      },
     ],
   }))
 
@@ -174,8 +191,14 @@ export const reqApplyDetail = withLoading((data: { approveId: number }) =>
 )
 
 // 批准审批
-export const doApplyDeal = withLoading(
-  (content: { status: string; approveId: number[]; comment: string; approveUserId: number }) =>
+export const doApplyAgree = withLoading(
+  (content: { status: 'pass'; approveId: number[]; comment: string; approveUserId: number }) =>
+    curl(`oa/applyDeal.json`, { content }),
+)
+
+// 拒绝审批
+export const doApplyRefuse = withLoading(
+  (content: { status: 'deny'; approveId: number[]; comment: string; approveUserId: number }) =>
     curl(`oa/applyDeal.json`, { content }),
 )
 
@@ -190,11 +213,17 @@ export const doApplyWithdraw = withLoading((data: { approvalId: number }) =>
 )
 
 // 获取审批人列表
-export const reqReciveRoleList = withLoading((data: { leaveDays: number; type: 'leave' }) =>
-  curl<ApplyLeaveVoItem[]>(`/oa/approverRoleList.json`, data),
+export const reqReciveRoleList = withLoading(
+  (data: { leaveDays: number; type: 'leave' | 'overtime' }) =>
+    curl<ApplyLeaveVoItem[]>(`/oa/approverRoleList.json`, data),
 )
 
 // 请假申请
 export const doApplyLeave = withLoading((content: ApplyLeaveDto) =>
   curl(`/oa/submitLeave.json`, { content }),
+)
+
+// 加班申请
+export const doApplyOvertime = withLoading((content: ApplyOvertimeDto) =>
+  curl(`/oa/submitOvertime.json`, { content }),
 )

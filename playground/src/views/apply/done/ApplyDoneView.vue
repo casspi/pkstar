@@ -41,21 +41,11 @@
   })
   // 获取实例
   const tabContentRefs = ref<any[]>([])
-  const triggerTabContentRefresh = (data: string | Record<string, any>) => {
-    const type = typeof data === 'string' ? data : data.type
-    active.value = tabs.findIndex((tab) => tab.type === type)
+  const triggerTabContentRefresh = (data: string | Record<string, any> | undefined) => {
     const ref = tabContentRefs.value[active.value]
-
     nextTick(() => {
-      if (typeof data !== 'string') {
-        // 更新字段
-        const pagingData: any[] = ref?.pagingData
-        const item = pagingData.find((item) => item.id === data.id)
-        Object.assign(item, omit(data, ['id', 'type']))
-      } else {
-        // 刷新列表
-        ref?.pagingRefresh(true)
-      }
+      // 刷新列表
+      ref?.pagingRefresh(true)
     })
   }
 

@@ -277,7 +277,7 @@ export interface LeaveInfoItem {
 // 	"approveSign": 0
 // }
 
-// 审批人
+// 请假申请
 export interface ApplyLeaveDto {
   reason: string
   startDt: string
@@ -289,7 +289,7 @@ export interface ApplyLeaveDto {
   receiveRoleId: string
   receiveId: string
   endDt: string
-  type: string
+  type: 'leave' | 'overtime'
   receiveType: string
 }
 export interface ApplyLeaveVoItem {
@@ -307,4 +307,20 @@ export interface ApplyLeaveUser {
   approvalType?: string
   roleId?: number
   roleName?: string
+}
+
+// 加班申请
+export interface ApplyOvertimeDto {
+  startDt: string
+  hours: number
+  receiveId: string
+  receiveRoleId: string
+  userId: number
+  location: string
+  receiveType: string
+  reason: string
+  days: number
+  isAllDay: BooleanString
+  endDt: string
+  isProject: BooleanString
 }

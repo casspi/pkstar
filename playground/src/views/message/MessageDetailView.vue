@@ -1,6 +1,11 @@
 <template>
   <HorView class="" :title="bisTypeValueMap[d.bisType].title">
-    <MessageDetailItem v-for="(item, index) in sourceData" :key="index" :item="item" />
+    <MessageDetailItem
+      v-for="(item, index) in sourceData"
+      :key="index"
+      :item="item"
+      @click="handleClick(item)"
+    />
 
     <ProEndDivider />
   </HorView>
@@ -25,6 +30,16 @@
     content: '22233',
     toUserName: '刘广仓',
     msgDate: '2025-07-27 16:33:55',
+  }
+  const router = useRouter()
+  const handleClick = (item: MessageItem) => {
+    router.push({
+      path: `/apply/${item?.approvalId}`,
+      query: {
+        title: item?.title,
+        applyType: item.bisSubType,
+      },
+    })
   }
 </script>
 

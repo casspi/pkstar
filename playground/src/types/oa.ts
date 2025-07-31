@@ -3,8 +3,8 @@ export interface AttendDto {
   locationName?: string
   locationDetail?: string
   fileIds: string
-  longitude: string
-  latitude: string
+  longitude: string | number
+  latitude: string | number
   type: 'sign' | 'attend'
   attendType?: string
   remark: string

@@ -36,6 +36,7 @@
   import { showSuccessToast } from 'vant'
   import SignPopup from '@/components/SignPopup.vue'
   import { useAsyncTask, useKeepAlive } from '@pkstar/vue-use'
+  import { getLocationByBMap } from '@pkstar/horn-jssdk'
 
   useKeepAlive()
 
@@ -50,6 +51,7 @@
   const week = now.getDay()
   const weekStr = ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'][week]
   const time = now.getHours() + ':' + now.getMinutes()
+  const locationInfo = ref<{ longitude: number; latitude: number }>()
 
   const { data: attendData, trigger } = useAsyncTask(reqAttendInit, {
     immediate: true,
@@ -68,22 +70,22 @@
     router.push('/attend/attend-list')
   }
   const handleAttend = async () => {
-    if (isApp) {
-      const res = await reqFaceCheck({
-        dataId: `${isIOS() ? 'ios' : 'android'}${Date.now()}`,
-        username: userinfo?.content.mobile!,
-        image: 'base64',
-      })
-      if (res !== '0') {
-        router.back()
-        throw '非本人打卡，系统不允许'
-      }
-    }
+    // if (isApp) {
+    //   const res = await reqFaceCheck({
+    //     dataId: `${isIOS() ? 'ios' : 'android'}${Date.now()}`,
+    //     username: userinfo?.content.mobile!,
+    //     image: 'base64',
+    //   })
+    //   if (res !== '0') {
+    //     router.back()
+    //     throw '非本人打卡，系统不允许'
+    //   }
+    // }
 
-    const remarkData = await signPopupRef.value?.show()
+    const remarkData = await signPopupRef.value?.show({ ...locationInfo.value })
     await doAttend({
-      longitude: '121.386341',
-      latitude: '31.256662',
+      longitude: locationInfo.value?.longitude!,
+      latitude: locationInfo.value?.latitude!,
       type: 'attend',
       attendType: 'startwork',
       ...remarkData!,
@@ -93,9 +95,11 @@
   }
 
   onMounted(async () => {
+    const { longitude, latitude } = await getLocationByBMap()
+    locationInfo.value = { longitude, latitude }
     await appendBmap()
-    const longitude = 116.404
-    const latitude = 39.915
+    // const longitude = 116.404
+    // const latitude = 39.915
     // 百度地图API功能
     const map = new BMap.Map('bmap-warp') //,{minZoom:18.5,maxZoom:18.5}
     const point = new BMap.Point(longitude, latitude)

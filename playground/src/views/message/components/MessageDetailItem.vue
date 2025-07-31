@@ -18,14 +18,12 @@
     </div>
   </div>
 </template>
-<!-- 
 
--->
 <script setup lang="ts">
   import type { MessageItem } from '@/types'
   import { bisTypeValueMap, applyTypeValueMap } from '@/utils'
 
-  const props = defineProps({
+  defineProps({
     item: {
       type: Object as PropType<MessageItem>,
     },

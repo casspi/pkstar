@@ -1,6 +1,6 @@
 <template>
   <HorView use-tab-scroll>
-    <VanTabs v-model:active="active" sticky>
+    <VanTabs @change="tabChange" v-model:active="active" sticky>
       <VanTab :title="item.name" v-for="(item, index) in tabs" :key="index">
         <ApplyMyTabContent
           :ref="(el: any) => (tabContentRefs[index] = el)"
@@ -15,7 +15,6 @@
 <script lang="ts" setup>
   import { onBeforeMountOrActivated } from '@/hooks'
   import { applyListTrap } from '@/utils'
-  import { omit } from '@pkstar/utils'
   import { useKeepAlive, useKeepPosition } from '@pkstar/vue-use'
   import ApplyMyTabContent from './components/ApplyMyTabContent.vue'
   import { nextTick, ref } from 'vue'
@@ -57,6 +56,10 @@
       // 刷新列表
       ref?.pagingRefresh(true)
     })
+  }
+  const tabChange = (name: string | number, title: string) => {
+    console.log(name, title)
+    triggerTabContentRefresh(undefined)
   }
 
   onBeforeMountOrActivated(() => {

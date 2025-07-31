@@ -16,6 +16,7 @@
   import { useProSchemaForm } from './ProSchemaForm'
   import { useLocationField } from '@/hooks'
   import banana from '@pkstar/banana'
+  import { getLocationNameByPoint } from '@/utils'
 
   const fields = useProSchemaForm({
     remark: {
@@ -27,7 +28,7 @@
         placeholder: '请输入备注',
       },
     },
-    locationName: useLocationField(),
+    locationName: useLocationField({}),
     fileIds: {
       value: [],
       defaultValue: () => [],
@@ -55,7 +56,11 @@
     any,
     { remark: string; locationName: string; fileIds: string }
   >({
-    showCallback: async (options = {}) => {},
+    showCallback: async (options: { longitude: number; latitude: number }) => {
+      const res = await getLocationNameByPoint(options.longitude, options.latitude)
+      fields.locationName.value = res[0].title
+      fields.locationName.to = `/location/lift?longitude=${options.longitude}&latitude=${options.latitude}`
+    },
     confirmCallback: () => {
       const options = banana.validate(fields)
       reset()

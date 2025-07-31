@@ -47,6 +47,7 @@
     const { setSysConfig } = useSysConfigStore()
     setSysConfig(res)
   }
+
   onBeforeMountOrActivated(async () => {
     await handleRefresh(false)
     getSysConfig()

@@ -3,41 +3,51 @@
     <div class="work-menu">
       <h4 class="work-menu-title">常用功能</h4>
       <ul class="work-menu-content">
-        <li
-          class="workMeuns-item"
-          v-for="(item, index) in workMeuns"
-          :key="index"
-          @click="$router.push(item.path)"
-        >
-          <img :src="item.icon" alt="" srcset="" />
-          <span>{{ item.title }}</span>
-        </li>
+        <template v-for="(item, index) in workMeuns" :key="index">
+          <li class="workMeuns-item" v-if="!item.hidden" @click="handleTransfer(item)">
+            <img :src="item.icon" alt="" srcset="" />
+            <span>{{ item.title }}</span>
+          </li>
+        </template>
       </ul>
     </div>
   </HorView>
 </template>
 
 <script setup lang="ts">
+  import { __DEV__ } from '@/utils'
+  import { useTransfer } from '@pkstar/vue-use'
+
+  const handleTransfer = useTransfer()
+
   const workMeuns = [
     {
       title: '公告',
       icon: new URL('@/assets/img/icon/woke_announcement.png', import.meta.url).href,
-      path: '/oa/notice',
+      to: '/oa/notice',
     },
     {
       title: '打卡',
       icon: new URL('@/assets/img/icon/woke_punchcard.png', import.meta.url).href,
-      path: '/attend',
+      to: '/attend',
     },
     {
       title: '签到',
       icon: new URL('@/assets/img/icon/woke_sign.png', import.meta.url).href,
-      path: '/sign',
+      to: '/sign',
     },
     {
       title: '审批',
       icon: new URL('@/assets/img/icon/woke_approval.png', import.meta.url).href,
-      path: '/apply',
+      to: '/apply',
+    },
+    {
+      title: '刷新页面',
+      icon: new URL('@/assets/img/icon/woke_approval.png', import.meta.url).href,
+      fn: () => {
+        window.location.reload()
+      },
+      hidden: !__DEV__,
     },
   ]
 </script>

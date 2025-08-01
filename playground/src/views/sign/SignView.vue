@@ -8,14 +8,16 @@
     <ul class="sign-info">
       <li>
         <HorIcon class="icon" name="location-o" size="30" />
-        <span>{{ nowStr }}</span>
+        <span>{{ computedAddress }}</span>
       </li>
       <li>
         <HorIcon class="icon" name="clock-o" size="26" />
         <span>{{ nowStr }}</span>
       </li>
     </ul>
-    <div class="sign-btn"><HorIcon name="location" size="30" @click="handleSign" />签到</div>
+    <button class="sign-btn" :disabled="!locationInfo.longitude" @click="handleSign">
+      <HorIcon name="location" size="30" />签到
+    </button>
 
     <!-- 签到弹框 -->
     <SignPopup ref="signPopupRef" />
@@ -25,11 +27,12 @@
 <script setup lang="ts">
   import { doAttend, reqFaceCheck } from '@/api'
   import { useUserinfoStore } from '@/stores'
-  import { appendBmap, isApp } from '@/utils'
+  import { __DEV__, appendBmap, isApp } from '@/utils'
   import { formatDate, isIOS } from '@pkstar/utils'
   import { useKeepAlive } from '@pkstar/vue-use'
   import SignPopup from '@/components/SignPopup.vue'
   import { showSuccessToast } from 'vant'
+  import { getLocationByBMap, type GetLocationByBMapResult } from '@pkstar/horn-jssdk'
 
   const { userinfo } = useUserinfoStore()
   const router = useRouter()
@@ -41,12 +44,16 @@
   const week = now.getDay()
   const weekStr = ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'][week]
   const time = now.getHours() + ':' + now.getMinutes()
+  let locationInfo = reactive<Partial<GetLocationByBMapResult>>({})
+  const computedAddress = computed(() => {
+    return locationInfo?.poi || locationInfo?.address
+  })
 
   const handleRight = () => {
     router.push('/sign-list')
   }
   const handleSign = async () => {
-    if (isApp) {
+    if (isApp && !__DEV__) {
       const res = await reqFaceCheck({
         dataId: `${isIOS() ? 'ios' : 'android'}${Date.now()}`,
         username: userinfo?.content.mobile!,
@@ -58,24 +65,28 @@
       }
     }
 
-    const res = await signPopupRef.value?.show()
+    const res = await signPopupRef.value?.show({ ...toRaw(locationInfo) })
     if (res) {
       const { locationName: locationDetail, remark, fileIds } = res
+      locationInfo!.poi = locationDetail
       await doAttend({
-        longitude: '121.386341',
-        latitude: '31.256662',
+        longitude: locationInfo?.longitude!,
+        latitude: locationInfo?.latitude!,
         type: 'sign',
         locationDetail,
         remark,
         fileIds,
       })
       showSuccessToast('签到成功')
+      router.back()
     }
   }
   onMounted(async () => {
+    const locationRes = await getLocationByBMap()
+    locationInfo = Object.assign(locationInfo, locationRes)
     await appendBmap()
-    const longitude = 116.404
-    const latitude = 39.915
+    const longitude = locationRes.longitude
+    const latitude = locationRes.latitude
     // 百度地图API功能
     const map = new BMap.Map('bmap-warp') //,{minZoom:18.5,maxZoom:18.5}
     const point = new BMap.Point(longitude, latitude)
@@ -121,6 +132,10 @@
     border-radius: j(50);
     font-size: j(14);
     margin: j(20) auto j(50);
+    border: none;
+    &:disabled {
+      opacity: 0.6;
+    }
     span {
       font-size: j(20);
       margin-top: j(5);

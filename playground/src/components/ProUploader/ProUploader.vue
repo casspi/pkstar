@@ -102,9 +102,12 @@
       } else {
         // 默认上传
         const data = await doFileToBase64(res)
-        const upRes = await Promise.all(
-          data.map((item) => doFileUploadWithBase64({ data: item.base64 }, props.source)),
-        )
+
+        const upRes = await withLoading(() =>
+          Promise.all(
+            data.map((item) => doFileUploadWithBase64({ data: item.base64 }, props.source)),
+          ),
+        )()
         console.log(upRes)
         callback(upRes)
       }
@@ -181,8 +184,10 @@
     @extend %fww;
     width: 100%;
     li {
-      width: 22%;
-      // height: j(90);
+      // width: 22%;
+      // height: 22%;
+      width: j(75);
+      height: j(75);
       aspect-ratio: 1;
       background-color: #eee;
       margin-bottom: 3%;

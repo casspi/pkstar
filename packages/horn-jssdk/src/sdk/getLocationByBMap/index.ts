@@ -13,6 +13,7 @@ export interface GetLocationByBMapResult {
   streetNumber: string
   cityCode: string
   adCode: string
+  poi?: string
 }
 
 export interface GetLocationByBMapOptions {

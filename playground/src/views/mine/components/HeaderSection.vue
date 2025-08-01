@@ -18,7 +18,7 @@
   import { useUserinfoStore } from '@/stores'
   import { showChooseSourceType, withLoading } from '@/utils'
   import defSrc from '@/assets/img/default_user.png'
-  import { chooseImage, fileToBase64, uploadFile } from '@pkstar/horn-jssdk'
+  import { chooseImage, fileToBase64 } from '@pkstar/horn-jssdk'
   import { doFileUploadWithBase64, doUserInfoUpdate } from '@/api'
 
   const { userinfo } = useUserinfoStore(true)
@@ -35,17 +35,19 @@
     })
     console.log('chooseImageRes', chooseImageRes)
     const tempFilePath = chooseImageRes.tempFilePaths[0]
-    const base64Res = await fileToBase64({
-      filePath: tempFilePath,
-    })
-    const res = await doFileUploadWithBase64({ data: base64Res.base64 }, 'userinfo')
-    console.log(res)
-    await withLoading(doUserInfoUpdate)({
-      smallImage: res.url,
-      fileIds: res.id,
-      // ...userinfo.value!.content,
-    })
-    userinfo.value!.content.smallImage = res.url
+    withLoading(async () => {
+      const base64Res = await fileToBase64({
+        filePath: tempFilePath,
+      })
+      const res = await doFileUploadWithBase64({ data: base64Res.base64 }, 'userinfo')
+      console.log(res)
+      await withLoading(doUserInfoUpdate)({
+        smallImage: res.url,
+        fileIds: res.id,
+        // ...userinfo.value!.content,
+      })
+      userinfo.value!.content.smallImage = res.url
+    })()
   }
 </script>
 

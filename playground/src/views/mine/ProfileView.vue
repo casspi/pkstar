@@ -4,6 +4,7 @@
       <span>编辑</span>
     </template>
     <ProSchemaRender :fields="fields" :source="userinfo?.content" shwoEmptyField> </ProSchemaRender>
+    <ProEndDivider />
   </HorView>
 </template>
 

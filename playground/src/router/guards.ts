@@ -37,7 +37,7 @@ export function setupGuards(router: Router) {
 
     // 设置状态栏颜色
     if (isApp) {
-      setStatusBarStyle({ theme: statusTheme })
+      // setStatusBarStyle({ theme: statusTheme })
     }
   })
 }

@@ -20,21 +20,19 @@
 <script setup lang="ts">
   import { getLocationNameByPoint, locationNameTrap, withLoading } from '@/utils'
   import { getLocationByBMap } from '@pkstar/horn-jssdk'
-  import { useAsyncTask, useQuery } from '@pkstar/vue-use'
+  import { useAsyncTask } from '@pkstar/vue-use'
 
-  // const { longitude, latitude } = useQuery()
   const {
     data: locationList,
     loading,
     error,
     trigger,
   } = useAsyncTask(
-    async () => {
+    withLoading(async () => {
       const { longitude, latitude } = await getLocationByBMap()
-      const res = await withLoading(getLocationNameByPoint)(+longitude, +latitude)
-      console.log('222', res)
+      const res = await getLocationNameByPoint(+longitude, +latitude)
       return res
-    },
+    }),
     {
       immediate: true,
     },

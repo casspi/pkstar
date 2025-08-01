@@ -35,13 +35,12 @@
   import { useUserinfoStore } from '@/stores'
 
   const { userinfo } = useUserinfoStore()
-
   const currentMonth = ref(formatDate(new Date(), 'yyyy-MM'))
 
   watch(
     () => currentMonth.value,
-    () => {
-      trigger()
+    async () => {
+      await trigger()
     },
   )
 
@@ -49,6 +48,7 @@
     () => withLoading(reqSignRecord)({ requestMonth: currentMonth.value }),
     {
       immediate: true,
+      throwError: true,
     },
   )
 </script>

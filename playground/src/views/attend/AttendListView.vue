@@ -1,15 +1,16 @@
 <template>
   <HorView class="attend-list-view">
-    <ProSkeleton v-if="!data" :loading="loading" :error="error" @refresh="trigger" />
-    <template v-else>
-      <div class="c-bar"></div>
-      <div class="c-user-info">
-        <div class="user">
-          <UserAvatar class="c-avatar" :src="userinfo?.content.smallImage" />
-          <span>{{ userinfo?.content.realName }}</span>
-        </div>
-        <MonthSelect v-model="currentMonth" />
+    <div class="c-bar"></div>
+    <div class="c-user-info">
+      <div class="user">
+        <UserAvatar class="c-avatar" :src="userinfo?.content.smallImage" />
+        <span>{{ userinfo?.content.realName }}</span>
       </div>
+      <MonthSelect v-model="currentMonth" />
+    </div>
+
+    <ProSkeleton v-if="!data || error" :loading="loading" :error="error" @refresh="trigger" />
+    <template v-else>
       <div class="c-bar"></div>
       <ul class="attend-info attend-info-1">
         <li class="info-item" v-for="(item, index) in attendSumms1" :key="index">
@@ -33,8 +34,8 @@
           </div>
         </dd>
       </dl>
+      <ProEndDivider />
     </template>
-    <ProEndDivider />
     <div class="c-ios-seat"></div>
   </HorView>
 </template>
@@ -44,12 +45,10 @@
   import { reqAttendRecord } from '@/api'
   import { formatDate } from '@pkstar/utils'
   import MonthSelect from '@/components/MonthPicker.vue'
-  import { withLoading } from '@/utils'
   import type { AttendSumm } from '@/types'
   import { useUserinfoStore } from '@/stores'
 
   const { userinfo } = useUserinfoStore()
-
   const currentMonth = ref(formatDate(new Date(), 'yyyy-MM'))
 
   watch(
@@ -60,7 +59,7 @@
   )
 
   const { data, error, loading, trigger } = useAsyncTask(
-    () => withLoading(reqAttendRecord)({ requestMonth: currentMonth.value }),
+    () => reqAttendRecord({ requestMonth: currentMonth.value }),
     {
       immediate: true,
     },

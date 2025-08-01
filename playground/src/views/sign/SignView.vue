@@ -31,7 +31,7 @@
   import { formatDate, isIOS } from '@pkstar/utils'
   import { useKeepAlive } from '@pkstar/vue-use'
   import SignPopup from '@/components/SignPopup.vue'
-  import { showSuccessToast } from 'vant'
+  import { showConfirmDialog, showFailToast, showSuccessToast } from 'vant'
   import { getLocationByBMap, type GetLocationByBMapResult } from '@pkstar/horn-jssdk'
 
   const { userinfo } = useUserinfoStore()
@@ -83,7 +83,15 @@
   }
   onMounted(async () => {
     const locationRes = await getLocationByBMap()
-    locationInfo = Object.assign(locationInfo, locationRes)
+    if (!locationRes?.address) {
+      showConfirmDialog({
+        message: '获取定位失败，请开启定位权限和位置信息！',
+        showCancelButton: false,
+      })
+      return
+    }
+    locationInfo = locationRes
+
     await appendBmap()
     const longitude = locationRes.longitude
     const latitude = locationRes.latitude

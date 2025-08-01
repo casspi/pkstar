@@ -79,7 +79,9 @@
       label: '审批通知',
       is: 'HorCheckbox',
       options: NOTICE_METHOD,
-      props: {},
+      props: {
+        checkedColor: '',
+      },
       set: (s, f) => {
         const { noticeMethod } = s
         const res: any[] = []

@@ -82,7 +82,7 @@
     padding-left: j(15);
     width: j(165);
     margin-bottom: j(10);
-    font-size: j(12);
+    font-size: j(14);
     @extend %bsb;
     @extend %df;
     @extend %aic;
@@ -107,7 +107,7 @@
     @extend %fww;
     padding: j(15) j(15) j(5);
     background-color: #fff;
-    font-size: j(12);
+    font-size: j(14);
     .oa-menu-item {
       @extend %df;
       @extend %aic;

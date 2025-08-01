@@ -4,7 +4,7 @@
       <div class="title">{{ computedItem.title }}</div>
       <div class="time">{{ computedItem.publishDt }}</div>
     </div>
-    <div class="notice-content" v-html="computedItem.content"></div>
+    <div class="notice-content" @click.prevent.stop="() => {}" v-html="computedItem.content"></div>
   </HorView>
 </template>
 
@@ -23,7 +23,7 @@
   @use '@/assets/scss/define.scss' as *;
   .notice-detail {
     padding: j(10) j(15);
-    font-size: J(12);
+    font-size: j(13);
     .title {
       font-weight: bold;
     }
@@ -33,6 +33,7 @@
     }
     .notice-content {
       margin-top: j(15);
+      font-size: j(12);
     }
   }
 </style>

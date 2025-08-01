@@ -4,7 +4,7 @@
       <h4 class="work-menu-title">常用功能</h4>
       <ul class="work-menu-content">
         <template v-for="(item, index) in workMeuns" :key="index">
-          <li class="workMeuns-item" v-if="!item.hidden" @click="handleTransfer(item)">
+          <li class="work-meun-item" v-if="!item.hidden" @click="handleTransfer(item)">
             <img :src="item.icon" alt="" srcset="" />
             <span>{{ item.title }}</span>
           </li>
@@ -69,7 +69,7 @@
     flex-wrap: wrap; // 允许换行
     justify-content: space-between; // 项目均匀分布
   }
-  .workMeuns-item {
+  .work-meun-item {
     flex: 0 0 25%; // 每个菜单项占 25% 的宽度
     box-sizing: border-box; // 包含内边距和边框
     padding: j(5); // 添加内边距
@@ -77,10 +77,13 @@
     flex-direction: column;
     align-items: center;
     text-align: center;
+    margin-bottom: j(5);
   }
-  .workMeuns-item img {
+  .work-meun-item img {
     width: j(20); // 设置图片宽度
     height: j(20); // 设置图片高度
     margin-bottom: j(5); // 图片与文字之间的间距
+    object-fit: contain;
+    object-position: center;
   }
 </style>

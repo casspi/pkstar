@@ -35,7 +35,7 @@
     }
   }
   .notice-cell-title {
-    font-size: J(13);
+    font-size: j(13);
     font-weight: bold;
     margin-bottom: j(10);
   }

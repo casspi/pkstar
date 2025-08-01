@@ -25,7 +25,7 @@
 </template>
 
 <script setup lang="ts">
-  import { doAttend, reqFaceCheck } from '@/api'
+  import { doSign, reqFaceCheck } from '@/api'
   import { useUserinfoStore } from '@/stores'
   import { __DEV__, appendBmap, isApp } from '@/utils'
   import { formatDate, isIOS } from '@pkstar/utils'
@@ -67,13 +67,13 @@
 
     const res = await signPopupRef.value?.show({ ...toRaw(locationInfo) })
     if (res) {
-      const { locationName: locationDetail, remark, fileIds } = res
-      locationInfo!.poi = locationDetail
-      await doAttend({
+      const { locationName, remark, fileIds } = res
+      locationInfo!.poi = locationName
+      await doSign({
         longitude: locationInfo?.longitude!,
         latitude: locationInfo?.latitude!,
         type: 'sign',
-        locationDetail,
+        locationName,
         remark,
         fileIds,
       })
@@ -90,13 +90,14 @@
     // 百度地图API功能
     const map = new BMap.Map('bmap-warp') //,{minZoom:18.5,maxZoom:18.5}
     const point = new BMap.Point(longitude, latitude)
-    map.centerAndZoom(point, 15) // 初始化地图,设置中心点坐标和地图级别
-
+    map.centerAndZoom(point, 17) // 初始化地图,设置中心点坐标和地图级别
+    map.disableDragging() // 禁用地图拖拽
+    map.disableDoubleClickZoom() // 取消地图双击缩放
+    map.disablePinchToZoom() // 禁用双指缩放地图
     map.clearOverlays()
+
     const bpt = new BMap.Point(longitude, latitude)
     const marker = new BMap.Marker(bpt) // 创建标注
-    //   marker.enableDragging(); // 不可拖拽
-    // map.centerAndZoom(bpt, 15);
     map.addOverlay(marker)
   })
 </script>
@@ -125,8 +126,8 @@
     color: #3aadeb;
   }
   .sign-btn {
-    width: j(80);
-    height: j(80);
+    width: j(100);
+    height: j(100);
     background-color: $color-primary;
     color: #fff;
     border-radius: j(50);

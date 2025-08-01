@@ -41,12 +41,18 @@
     // eslint-disable-next-line vue/no-setup-props-destructure
     usePaging<NoticeItem>(
       async ([pageindex, pagesize], { loading }) => {
-        const content = await reqNoticeList({ pageindex, pagesize, isRead: 'Y' }, loading)
-        return [content, 99]
+        const content = await reqNoticeList(
+          { pageindex, pagesize, isRead: props.type === 'read' ? 'Y' : 'N' },
+          loading,
+        )
+        return [content, 999]
       },
       {
         immediate: true,
         scrollSelector: `.tab-content-${props.type}`,
+        initialStatus: {
+          pagingSize: 20,
+        },
       },
     )
 </script>

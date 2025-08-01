@@ -16,10 +16,8 @@
 <script lang="ts">
   import { onBeforeMountOrActivated } from '@/hooks'
   import { noticeListTrap } from '@/utils'
-  import { omit } from '@pkstar/utils'
   import { useKeepPosition } from '@pkstar/vue-use'
-  import NoticeReadTabContent from './components/NoticeReadTabContent.vue'
-  import NoticeUnReadTabContent from './components/NoticeUnReadTabContent.vue'
+  import NoticeTabContent from './components/NoticeTabContent.vue'
   import { defineComponent, nextTick, ref } from 'vue'
 
   export default defineComponent({
@@ -28,12 +26,12 @@
       const tabs = [
         {
           name: '未读',
-          is: 'NoticeUnReadTabContent',
+          is: 'NoticeTabContent',
           type: 'unread',
         },
         {
           name: '已读',
-          is: 'NoticeReadTabContent',
+          is: 'NoticeTabContent',
           type: 'read',
         },
       ]
@@ -49,15 +47,8 @@
         const ref = tabContentRefs.value[active.value]
 
         nextTick(() => {
-          if (typeof data !== 'string') {
-            // 更新字段
-            const pagingData: any[] = ref?.pagingData
-            const item = pagingData.find((item) => item.id === data.id)
-            Object.assign(item, omit(data, ['id', 'type']))
-          } else {
-            // 刷新列表
-            ref?.pagingRefresh(true)
-          }
+          // 刷新列表
+          ref?.pagingRefresh(true)
         })
       }
 
@@ -72,8 +63,7 @@
       }
     },
     components: {
-      NoticeReadTabContent,
-      NoticeUnReadTabContent,
+      NoticeTabContent,
     },
   })
 </script>

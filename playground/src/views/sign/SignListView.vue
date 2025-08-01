@@ -17,7 +17,7 @@
         <HorIcon class="icon" name="location-o" size="30" />
         <div class="sign-list-item-content">
           <span class="sign-list-item-content-date">{{ item.dt }}</span>
-          <span class="sign-list-item-content-location">{{ item.locationDetail }}</span>
+          <span class="sign-list-item-content-location">{{ item.location }}</span>
         </div>
       </dd>
     </dl>

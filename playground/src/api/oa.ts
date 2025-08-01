@@ -163,6 +163,12 @@ export const reqAttendInit = withLoading(() => curl<AttendItem[]>(`/oa/attendLis
 export const reqAttendRecord = (data: { requestMonth: string }) =>
   curl<AttendRecord>(`/oa/attendSummary.json`, data)
 
+// 签到
+export const doSign = withLoading(
+  (data: AttendDto) => curl<AttendItem>(`/oa/sign.json`, data),
+  true,
+)
+
 // 签到记录
 export const reqSignRecord = (data: { requestMonth: string }) =>
   curl<SignRecord>(`/oa/signSummary.json`, data)

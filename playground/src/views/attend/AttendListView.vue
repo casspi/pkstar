@@ -29,7 +29,7 @@
           <!-- <img src="@/assets/img/icon/woke_sign.png" alt="" srcset="" /> -->
           <div class="sign-list-item-content">
             <span class="sign-list-item-content-date">{{ item.dt }}</span>
-            <span class="sign-list-item-content-location">{{ item.locationDetail }}</span>
+            <span class="sign-list-item-content-location">{{ item.location }}</span>
           </div>
         </dd>
       </dl>
@@ -123,7 +123,7 @@
   .attend-info {
     background-color: #fff;
     padding: j(10) j(15);
-    font-size: j(12);
+    font-size: j(13);
     @extend %df;
     @extend %fww;
     .info-item {

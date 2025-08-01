@@ -103,13 +103,14 @@
     // 百度地图API功能
     const map = new BMap.Map('bmap-warp') //,{minZoom:18.5,maxZoom:18.5}
     const point = new BMap.Point(locationRes.longitude, locationRes.latitude)
-    map.centerAndZoom(point, 15) // 初始化地图,设置中心点坐标和地图级别
+    map.centerAndZoom(point, 17) // 初始化地图,设置中心点坐标和地图级别
+    map.disableDragging() // 禁用地图拖拽
+    map.disableDoubleClickZoom() // 取消地图双击缩放
+    map.disablePinchToZoom() // 禁用双指缩放地图
 
     map.clearOverlays()
     const bpt = new BMap.Point(locationRes.longitude, locationRes.latitude)
     const marker = new BMap.Marker(bpt) // 创建标注
-    //   marker.enableDragging(); // 不可拖拽
-    // map.centerAndZoom(bpt, 15);
     map.addOverlay(marker)
   })
 </script>
@@ -125,8 +126,7 @@
   .attend-card {
     @extend %df;
     @extend %fww;
-    font-size: j(13);
-
+    font-size: j(14);
     padding: j(10) j(15) j(0);
     background-color: #fff;
     .card-item {
@@ -147,8 +147,8 @@
     bottom: j(60);
     left: 50%;
     transform: translateX(-50%);
-    width: j(80);
-    height: j(80);
+    width: j(100);
+    height: j(100);
     background-color: $color-primary;
     color: #fff;
     border-radius: j(50);

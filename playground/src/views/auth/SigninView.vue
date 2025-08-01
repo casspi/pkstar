@@ -82,7 +82,12 @@
     userinfo.content.roleName = role?.roleName ?? ''
     setUserinfo(userinfo)
 
-    router.back()
+    if (window.history.state.back) {
+      router.back() // 正常情况返回上一页
+    } else {
+      router.push('/')
+    }
+
     setTimeout(() => showSuccessToast('登录成功'))
   })
 </script>

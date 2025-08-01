@@ -180,16 +180,14 @@ export const reqFaceCheck = withLoading(
 )
 
 // 审批列表
-export const reqApplyList = withLoading(
-  (
-    data: PagingParams & {
-      applyType: string
-      waitStatus?: string
-      auditStatus?: string
-      title?: string
-    },
-  ) => curl<Array<ApplyItem>>(`oa/applyList.json`, data),
-)
+export const reqApplyList = (
+  data: PagingParams & {
+    applyType: string
+    waitStatus?: string
+    auditStatus?: string
+    title?: string
+  },
+) => curl<Array<ApplyItem>>(`oa/applyList.json`, data)
 
 // 审批详情
 export const reqApplyDetail = withLoading((data: { approveId: number }) =>

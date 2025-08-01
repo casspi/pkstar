@@ -27,7 +27,7 @@
 
 <script setup lang="ts">
   import { ref, watch } from 'vue'
-  import { isMiniProgram } from '@/utils'
+  import { isMiniProgram, withLoading } from '@/utils'
   import { proSearchProps } from './types'
 
   // 如果定义属性 这里传 horSearchProps， 在 types 里完善类型
@@ -51,7 +51,9 @@
     }
   }
   const handleSearch = () => {
-    emit('search', keyword.value)
+    withLoading(async () => {
+      emit('search', keyword.value)
+    })()
   }
 </script>
 

@@ -45,16 +45,13 @@
     // eslint-disable-next-line vue/no-setup-props-destructure
     usePaging(
       async ([pageindex, pagesize], { loading }) => {
-        const content = await reqApplyList(
-          {
-            pageindex,
-            pagesize,
-            applyType: 'notice',
-            auditStatus: props.type,
-            title: keyword.value,
-          },
-          loading,
-        )
+        const content = await reqApplyList({
+          pageindex,
+          pagesize,
+          applyType: 'notice',
+          auditStatus: props.type,
+          title: keyword.value,
+        })
         return [content, 99]
       },
       {

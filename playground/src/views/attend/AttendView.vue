@@ -36,7 +36,11 @@
   import { showConfirmDialog, showSuccessToast } from 'vant'
   import SignPopup from '@/components/SignPopup.vue'
   import { useAsyncTask, useKeepAlive } from '@pkstar/vue-use'
-  import { getLocationByBMap, type GetLocationByBMapResult } from '@pkstar/horn-jssdk'
+  import {
+    getLocationByBMap,
+    openAppAuthorizeSetting,
+    type GetLocationByBMapResult,
+  } from '@pkstar/horn-jssdk'
 
   useKeepAlive()
 
@@ -97,10 +101,11 @@
   onMounted(async () => {
     const locationRes = await getLocationByBMap()
     if (!locationRes.address) {
-      showConfirmDialog({
+      await showConfirmDialog({
         message: '获取定位失败，请开启定位权限和位置信息！',
         showCancelButton: false,
       })
+      openAppAuthorizeSetting()
       return
     }
 

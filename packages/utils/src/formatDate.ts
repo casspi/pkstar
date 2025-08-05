@@ -4,10 +4,7 @@ import { normalizeDate } from './normalizeDate'
  * 格式化日期
  * 默认的当前日期 yyyy-MM-dd hh:mm:ss
  */
-export function formatDate(
-  val: string | Date | number = new Date(),
-  fmt = 'yyyy-MM-dd hh:mm:ss',
-) {
+export function formatDate(val: string | Date | number = new Date(), fmt = 'yyyy-MM-dd hh:mm:ss') {
   const date = normalizeDate(val)
   const o: any = {
     'M+': date.getMonth() + 1,
@@ -20,10 +17,7 @@ export function formatDate(
   }
   if (/(y+)/.test(fmt)) {
     // eslint-disable-next-line no-param-reassign
-    fmt = fmt.replace(
-      RegExp.$1,
-      `${date.getFullYear()}`.substr(4 - RegExp.$1.length),
-    )
+    fmt = fmt.replace(RegExp.$1, `${date.getFullYear()}`.substr(4 - RegExp.$1.length))
   }
   // eslint-disable-next-line no-restricted-syntax
   for (const k in o) {

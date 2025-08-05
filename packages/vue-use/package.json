@@ -1,6 +1,6 @@
 {
   "name": "@pkstar/vue-use",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "description": "vue-use vue3 hooks",
   "main": "src/index.ts",
   "types": "src/index.ts",
@@ -15,7 +15,8 @@
     "build:lib": "npm run clean:lib && tsc -p ./tsconfig.json",
     "build": "npm run build:es && npm run build:lib",
     "format": "prettier --write src/",
-    "release": "npm run build && dsc publish --pnpm && dsc sync"
+    "release": "npm run build && dsc publish --pnpm && dsc sync",
+    "sync": "dsc sync"
   },
   "publishConfig": {
     "main": "lib/index.js",

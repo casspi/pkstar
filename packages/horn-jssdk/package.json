@@ -1,6 +1,6 @@
 {
   "name": "@pkstar/horn-jssdk",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "原生容器面向 H5 开发者提供的基于容器应用内的网页开发工具包",
   "main": "src/index.ts",
   "publishConfig": {
@@ -14,6 +14,7 @@
       },
       "./*": "./*"
     },
+    "access": "public",
     "registry": "https://registry.npmjs.org/"
   },
   "scripts": {
@@ -27,11 +28,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/daysnap/jssdk.git"
+    "url": "git+https://github.com/pkstar/horn-jssdk.git"
   },
   "keywords": [
     "horn",
-    "daysnap",
+    "pkstar",
     "jssdk",
     "tool"
   ],
@@ -39,7 +40,7 @@
     "lib",
     "es"
   ],
-  "author": "Ajuan",
+  "author": "kassadin <369642339@qq.com>",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/daysnap/jssdk/issues"

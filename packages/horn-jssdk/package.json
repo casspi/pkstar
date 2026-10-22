@@ -1,6 +1,6 @@
 {
   "name": "@pkstar/horn-jssdk",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "原生容器面向 H5 开发者提供的基于容器应用内的网页开发工具包",
   "main": "src/index.ts",
   "publishConfig": {

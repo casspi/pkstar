@@ -79,7 +79,7 @@
       required: true,
       arrow: true,
       fn: async (item: any) => {
-        const { value, type } = await horActionsSheetRef.value.show({
+        const { value, type } = await horActionsSheetRef.value!.show({
           actions: [
             {
               name: '相册选择图片',
